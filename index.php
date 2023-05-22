@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Home Page</title>
+    <title>LOGIN PAGE</title>
     <link rel="stylesheet" href="style.css">
 </head>
     <?php
@@ -19,35 +19,51 @@
         $password = "";
         $database = "login_credentials";
 
-        // Create a connection
+        //ESTABLISH A CONNECTION
         $connection = mysqli_connect($servername, $username, $password, $database);
 
-        // Check if the connection was successful
         if (!$connection) {
             die("Connection failed: " . mysqli_connect_error());
         }
 
-        // Check if the form was submitted
+        //DEAN
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Get the entered credentials from the login form
             $username = $_POST["username"];
             $password = $_POST["password"];
 
-            // SQL query to check the dean credentials
             $query = "SELECT * FROM dean_table WHERE username = '$username' AND password = '$password'";
             $result = mysqli_query($connection, $query);
 
             if (mysqli_num_rows($result) == 1) {
-                // Dean credentials are correct, redirect to dean homepage
                 header("Location: dean-homepage.php");
                 exit();
             } else {
-                // Invalid dean credentials, display an error message
                 $error_message = "Invalid credentials. Please try again.";
             }
         }
 
-        // Close the connection when you're done
+        //FACULTY
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+
+            $query = "SELECT * FROM faculty_table WHERE username = '$username' AND password = '$password'";
+            $result = mysqli_query($connection, $query);
+
+            if ($result) {
+                if (mysqli_num_rows($result) == 1) {
+                    header("Location: faculty-homepage.php");
+                    exit();
+                } else {
+                    $error_message = "Invalid credentials. Please try again.";
+                }
+            } else {
+                $error_message = "Query execution failed: " . mysqli_error($connection);
+            }
+        }
+
+
         mysqli_close($connection);
         ?>
 
@@ -131,14 +147,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <div class="mb-3">
                             <label for="facultyUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="facultyUsername" placeholder="Enter your username">
+                            <input type="text" class="form-control" id="facultyUsername" name="username" placeholder="Enter your username" required>
                         </div>
                         <div class="mb-3">
                             <label for="facultyPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="facultyPassword" placeholder="Enter your password">
+                            <input type="password" class="form-control" id="facultyPassword" name="password" placeholder="Enter your password" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
@@ -146,6 +162,7 @@
             </div>
         </div>
     </div>
+
 
 
 </body>
