@@ -102,11 +102,6 @@
         </div>
     </div>
 
-    <footer>
-        <div class="foot">
-            <input type="button" value="Admin" class="btn-admin" onclick="window.location.href='admin.php'">
-        </div>
-    </footer>
 
     <!--LOGIN POPUP ni Dean --> 
     <div class="modal fade" id="deanLoginModal" tabindex="-1" aria-labelledby="deanLoginModalLabel" aria-hidden="true">
