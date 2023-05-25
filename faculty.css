@@ -1,0 +1,102 @@
+body {
+    background-image: url(images/image.jpg);
+    background-position-y: center;
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+    background-repeat: no-repeat;
+}
+
+.title {
+    font-family: 'Oooh Baby', cursive;
+
+}
+
+.header {
+    padding: 10px;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(158, 0, 0, 0.7);
+
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+}
+
+.head-w {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    width: 100%;
+    padding-right: 20px;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    background-color: rgba(253, 166, 3, 0.7);
+    justify-content: space-between;
+    color: white;
+}
+
+.main-body{
+
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.opt{
+
+    width: 70px;
+    height: 70px;
+
+}
+
+.menu{
+
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 30%;
+    text-align: center;
+    margin-left: 0%;
+    
+    
+}
+
+ul li{
+
+        margin-bottom: 20px;
+      
+}
+
+ul{
+
+    padding: 10px;
+
+}
+
+li{
+    list-style-type: none;
+    font-size: 35px;
+    border: solid white 3px;
+    background-color: black;
+    padding: 3px;
+}
+
+.frame{
+    color: white;
+    background-color: green;
+    width: 68.5%;
+    margin-left: 7px;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 600px;
+
+}
+
+.menu{
+
+   height: 700px;
+
+}

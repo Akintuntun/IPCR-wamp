@@ -130,3 +130,23 @@ hr {
         padding: 10px;
     }
 }
+
+.main-body{
+
+    display: flex;
+    flex-direction: row;
+    
+
+}
+
+.menu{
+
+    background-color: red;
+
+}
+
+.frame{
+
+    background-color: green;
+
+}
