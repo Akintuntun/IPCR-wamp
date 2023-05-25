@@ -31,16 +31,35 @@
     <div class="main-body">
         <div class="menu">
             <ul class="options">
-                <li>Dashboard</li>
-                <li>IPCR</li>
-                <li>Notification</li>
-                <li>System Feedback</li>
+                <li onclick="changeFrame('dashboard-faculty.php')">Dashboard</li>
+                <li onclick="changeFrame('ipcr-faculty.php')">IPCR</li>
+                <li onclick="changeFrame('notification-faculty.php')">Notification</li>
+                <li onclick="changeFrame('system-feedback-faculty.php')">System Feedback</li>
             </ul>
         </div>
         <div class="frame">
-            <h1>afsd</h1>
+            <iframe id="frameContent" src="" frameborder="0"></iframe>
         </div>
     </div>
+    </div>
+
+    <script>
+
+        function changeFrame(url) {
+            var frameContent = document.getElementById('frameContent');
+            frameContent.src = url;
+
+            var options = document.querySelectorAll('.options li');
+            options.forEach(function (option) {
+                if (option.getAttribute('onclick') === "changeFrame('" + url + "')") {
+                    option.style.backgroundColor = 'gray';
+                } else {
+                    option.style.backgroundColor = 'black';
+                }
+            });
+        }
+
+    </script>
 
 </body>
 </html>

@@ -12,61 +12,62 @@
     <title>LOGIN PAGE</title>
     <link rel="stylesheet" href="style.css">
 </head>
-    <?php
-        // Database credentials
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "login_credentials";
+<?php
+    // Database credentials
+    $servername = "localhost";
+    $username = "root";
+    $password = "Akisophiekingking";
+    $database = "login_credentials";
 
-        //ESTABLISH A CONNECTION
-        $connection = mysqli_connect($servername, $username, $password, $database);
+    // Establish a connection
+    $connection = mysqli_connect($servername, $username, $password, $database);
 
-        if (!$connection) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
+    if (!$connection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 
-        //DEAN
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
+    // Dean
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-            $query = "SELECT * FROM dean_table WHERE username = '$username' AND password = '$password'";
-            $result = mysqli_query($connection, $query);
+        $query = "SELECT * FROM dean_credentials WHERE username = '$username' AND password = '$password'";
+        $result = mysqli_query($connection, $query);
 
+        if ($result) {
             if (mysqli_num_rows($result) == 1) {
                 header("Location: dean-homepage.php");
                 exit();
             } else {
                 $error_message = "Invalid credentials. Please try again.";
             }
+        } else {
+            $error_message = "Query execution failed: " . mysqli_error($connection);
         }
+    }
 
-        //FACULTY
+    // Faculty
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
+        $query = "SELECT * FROM faculty_credentials WHERE username = '$username' AND password = '$password'";
+        $result = mysqli_query($connection, $query);
 
-            $query = "SELECT * FROM faculty_table WHERE username = '$username' AND password = '$password'";
-            $result = mysqli_query($connection, $query);
-
-            if ($result) {
-                if (mysqli_num_rows($result) == 1) {
-                    header("Location: faculty-homepage.php");
-                    exit();
-                } else {
-                    $error_message = "Invalid credentials. Please try again.";
-                }
+        if ($result) {
+            if (mysqli_num_rows($result) == 1) {
+                header("Location: faculty-homepage.php");
+                exit();
             } else {
-                $error_message = "Query execution failed: " . mysqli_error($connection);
+                $error_message = "Invalid credentials. Please try again.";
             }
+        } else {
+            $error_message = "Query execution failed: " . mysqli_error($connection);
         }
+    }
 
-
-        mysqli_close($connection);
-        ?>
-
+    mysqli_close($connection);
+?>
     <body>
     <header>
         <div class="header">
