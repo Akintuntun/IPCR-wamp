@@ -14,19 +14,48 @@
 </head>
 <body>
 <header>
-        <div class="header">
-            <img src="images/lspu-logo.png" alt="LSPU-LOGO" class="logo">
-            <div class="label">
-                <h1 class="title"><i>Laguna State Polytechnic University San Pablo City Campus</i></h1>
-                <h2 class="college">College of Computer Studies</h2>
-            </div>
-            <img src="images\ccs.png" alt="CCS-LOGO" class="logo">
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "Akisophiekingking";
+    $database = "login_credentials";
+    $conn = mysqli_connect($servername, $username, $password, $database);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT firstname, middlename, lastname FROM your_table_name WHERE username = 'your_username_value'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $firstName = $row['firstname'];
+        $middleName = $row['middlename'];
+        $lastName = $row['lastname'];
+
+        $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
+    } else {
+        $fullName = "Juan Dela Cruz";
+    }
+
+    mysqli_close($conn);
+?>
+
+<header>
+    <div class="header">
+        <img src="images/lspu-logo.png" alt="LSPU-LOGO" class="logo">
+        <div class="label">
+            <h1 class="title"><i>Laguna State Polytechnic University San Pablo City Campus</i></h1>
+            <h2 class="college">College of Computer Studies</h2>
         </div>
-        <div class="head-w">
-            <img src="images\opt.png" alt="" class="opt">
-            <h2>Juan Dela Cruz</h2>
-        </div>
-    </header>
+        <img src="images\ccs.png" alt="CCS-LOGO" class="logo">
+    </div>
+    <div class="head-w">
+        <img src="images\opt.png" alt="" class="opt">
+        <h3><?php echo $fullName; ?></h3>
+    </div>
+</header>
     
     <div class="main-body">
         <div class="menu">
@@ -58,7 +87,6 @@
                 }
             });
         }
-
     </script>
 
 </body>
