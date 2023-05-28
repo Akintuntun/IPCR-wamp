@@ -10,9 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>LOGIN PAGE</title>
-    <link rel="stylesheet" href="faculty-style.css">
+    <link rel="stylesheet" href="CSS\faculty.css">
     
 </head>
+
+<style>
+    
+    body{
+
+        background-image: url(images/image.jpg);
+
+    }
+
+</style>
+
 <body>
 <header>
 <?php
@@ -60,7 +71,7 @@
             <div class="dropdown">
                 <img src="images/account-logo.png" alt="" class="opt" onclick="toggleDropdown()">
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Dean</a>
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">LOGOUT</a>
                 </div>
             </div>
          </div>

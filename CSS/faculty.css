@@ -1,5 +1,4 @@
 body {
-    background-image: url(images/image.jpg);
     background-position-y: center;
     background-attachment: fixed;
     background-size: cover;
@@ -91,7 +90,7 @@ li{
     width: 73.5%;
     margin-left: 7px;
     background-color: rgba(0, 0, 0, 0.7);
-    height: 600px;
+    height: 670px;
 
 }
 
