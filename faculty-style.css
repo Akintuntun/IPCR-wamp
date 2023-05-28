@@ -115,3 +115,23 @@ li:hover{
     background-color: gray;
 
 }
+
+
+.account{
+
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding-right: 30px;
+
+
+}
+
+.name{
+    padding: 10px;
+}
+
+.dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
+}

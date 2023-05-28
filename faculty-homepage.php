@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>LOGIN PAGE</title>
-    <link rel="stylesheet" href="faculty.css">
+    <link rel="stylesheet" href="faculty-style.css">
+    
 </head>
 <body>
 <header>
@@ -49,13 +50,42 @@
             <h1 class="title"><i>Laguna State Polytechnic University San Pablo City Campus</i></h1>
             <h2 class="college">College of Computer Studies</h2>
         </div>
-        <img src="images\ccs.png" alt="CCS-LOGO" class="logo">
+        <img src="images/ccs.png" alt="CCS-LOGO" class="logo">
     </div>
     <div class="head-w">
-        <img src="images\opt.png" alt="" class="opt">
-        <h3><?php echo $fullName; ?></h3>
+        <img src="images/opt.png" alt="" class="opt">
+        
+        <div class="account">
+            <h3 class="name"><?php echo $fullName; ?></h3>
+            <div class="dropdown">
+                <img src="images/account-logo.png" alt="" class="opt" onclick="toggleDropdown()">
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Dean</a>
+                </div>
+            </div>
+         </div>
+        
     </div>
 </header>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Logout Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to log out?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
     
     <div class="main-body">
         <div class="menu">
@@ -73,7 +103,6 @@
     </div>
 
     <script>
-
         function changeFrame(url) {
             var frameContent = document.getElementById('frameContent');
             frameContent.src = url;
@@ -86,6 +115,15 @@
                     option.style.backgroundColor = 'black';
                 }
             });
+        }
+
+        function toggleDropdown() {
+            var dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('show');
+        }
+
+        function logout() {
+            window.location.href = "index.php";
         }
     </script>
 

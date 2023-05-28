@@ -13,61 +13,62 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <?php
-    // Database credentials
-    $servername = "localhost";
-    $username = "root";
-    $password = "Akisophiekingking";
-    $database = "login_credentials";
+// Database credentials
+$servername = "localhost";
+$username = "root";
+$password = "Akisophiekingking";
+$database = "login_credentials";
 
-    // Establish a connection
-    $connection = mysqli_connect($servername, $username, $password, $database);
+// Establish a connection
+$connection = mysqli_connect($servername, $username, $password, $database);
 
-    if (!$connection) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-    // Dean
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+// Dean
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-        $query = "SELECT * FROM dean_credentials WHERE username = '$username' AND password = '$password'";
-        $result = mysqli_query($connection, $query);
+    $query = "SELECT * FROM dean_credentials WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($connection, $query);
 
-        if ($result) {
-            if (mysqli_num_rows($result) == 1) {
-                header("Location: dean-homepage.php");
-                exit();
-            } else {
-                $error_message = "Invalid credentials. Please try again.";
-            }
+    if ($result) {
+        if (mysqli_num_rows($result) == 1) {
+            header("Location: dean-homepage.php");
+            exit();
         } else {
-            $error_message = "Query execution failed: " . mysqli_error($connection);
+            echo '<script>showAlert("Incorrect credentials. Please try again.");</script>';
         }
+    } else {
+        echo '<script>showAlert("Query execution failed: ' . mysqli_error($connection) . '");</script>';
     }
+}
 
-    // Faculty
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+// Faculty
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-        $query = "SELECT * FROM faculty_credentials WHERE username = '$username' AND password = '$password'";
-        $result = mysqli_query($connection, $query);
+    $query = "SELECT * FROM faculty_credentials WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($connection, $query);
 
-        if ($result) {
-            if (mysqli_num_rows($result) == 1) {
-                header("Location: faculty-homepage.php");
-                exit();
-            } else {
-                $error_message = "Invalid credentials. Please try again.";
-            }
+    if ($result) {
+        if (mysqli_num_rows($result) == 1) {
+            header("Location: faculty-homepage.php");
+            exit();
         } else {
-            $error_message = "Query execution failed: " . mysqli_error($connection);
+            echo '<script>showAlert("Incorrect credentials. Please try again.");</script>';
         }
+    } else {
+        echo '<script>showAlert("Query execution failed: ' . mysqli_error($connection) . '");</script>';
     }
+}
 
-    mysqli_close($connection);
+mysqli_close($connection);
 ?>
+
     <body>
     <header>
         <div class="header">
@@ -122,6 +123,9 @@
                             <label for="deanPassword" class="form-label">Password</label>
                             <input type="password" class="form-control" id="deanPassword" name="password" placeholder="Enter your password" required>
                         </div>
+                        <div class="mb-3">
+                            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
+                        </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
                     <?php
@@ -152,12 +156,43 @@
                             <label for="facultyPassword" class="form-label">Password</label>
                             <input type="password" class="form-control" id="facultyPassword" name="password" placeholder="Enter your password" required>
                         </div>
+                        <div class="mb-3">
+                            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
+                        </div>
                         <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <?php
+                    if (isset($error_message)) {
+                        echo '<p class="error-message">' . $error_message . '</p>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="forgotEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="forgotEmail" placeholder="Enter your email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
+    
 
 
 

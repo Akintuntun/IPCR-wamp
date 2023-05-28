@@ -1,0 +1,138 @@
+body {
+    background-image: url(images/image.jpg);
+    background-position-y: center;
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+    background-repeat: no-repeat;
+}
+
+.title {
+    font-family: 'Oooh Baby', cursive;
+
+}
+
+.header {
+    padding: 10px;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(158, 0, 0, 0.7);
+}
+
+.button-login {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px;
+    padding-right: 20px;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    background-color: rgba(253, 166, 3, 0.7);
+}
+
+.btn-log {
+    font-size: 20px;
+    padding: 5px;
+    width: 90px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.btn-login:hover {
+    background-color: black;
+    cursor: pointer;
+}
+
+.ipcr {
+    font-size: 60px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.labels {
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+}
+
+.caption {
+    width: 70%;
+    font-size: 25px;
+}
+
+hr {
+    width: 80%;
+    height: 5px;
+    font-weight: bolder;
+    background-color: rgb(255, 255, 255);
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+}
+
+
+.container {
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.dropdown-menu {
+    margin-top: 5px;
+}
+
+.btn-admin {
+    font-size: medium;
+    border-radius: 10px;
+}
+
+
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-login {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .btn-log {
+        font-size: 16px;
+        width: 80px;
+    }
+
+    .ipcr {
+        font-size: 32px;
+    }
+
+    .labels {
+        padding: 10px;
+    }
+
+    .caption {
+        width: 100%;
+        font-size: small;
+    }
+
+    .hr {
+        width: 100%;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+.dropdown-menu {
+            left: auto !important;
+            right: 0 !important;
+        }

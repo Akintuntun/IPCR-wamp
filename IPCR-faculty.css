@@ -1,0 +1,23 @@
+body{
+
+    background-color: white;
+
+}
+
+
+#IPCR-context{
+
+    text-align: center;
+    font-size: 30px;
+
+}
+
+#promise{
+    text-align: center;
+    padding: 20px;
+
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
