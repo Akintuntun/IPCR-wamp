@@ -103,6 +103,7 @@
             <ul class="options">
                 <li onclick="changeFrame('dashboard-faculty.php')">Dashboard</li>
                 <li onclick="changeFrame('ipcr-faculty.php')">IPCR</li>
+                <li onclick="changeFrame('IPMT.php')">IPMT</li>
                 <li onclick="changeFrame('notification-faculty.php')">Notification</li>
                 <li onclick="changeFrame('system-feedback-faculty.php')">System Feedback</li>
             </ul>

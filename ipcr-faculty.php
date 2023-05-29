@@ -8,19 +8,25 @@
     <title>Document</title>
 </head>
 
-<style>
-    
+  <style>
     table, th,td,tr {
       border: 2px solid black;
       border-collapse: collapse;
     }
     
-</style>
+    p{
 
+      margin-left:35px;
+      margin-right:35px;
+      text-indent:30px;
+      text-align:center;
+
+    }
+  </style>
   
   <body>
     <h3 style = "text-align: center;">INDIVIDUAL PERFORMANCE COMMITMENT and REVIEW (IPCR)</h3>
-    <p style = "margin-left:35px; text-indent:30px;">I,<b><u>NAME</u>, <u>ACADEMIC Rank</u></b> of the Laguna State Polytechnic University, commit to deliver and agree to be rated on the attainmentof the following in accordance with the indicated measures for the _____ Semester of the academic year ______________.      </p>
+    <p style = "">I,<b><u>NAME</u>, <u>ACADEMIC Rank</u></b> of the Laguna State Polytechnic University, commit to deliver and agree to be rated on the attainmentof the following in accordance with the indicated measures for the _ Semester of the academic year __________.      </p>
     
       <table style = "width:100%;">
         
@@ -34,20 +40,20 @@
           <td colspan="4" style = "text-align:center;">Dean/Assoc.Dean</td>
           <td colspan="5" style = "text-align:center;">Campus Director</td>
         </tr>
-        <tr style="height:70px; text-align: center;">
-          <td rowspan="2" style="background-color: rgb(167, 166, 166);">Performance Indication</td>
-          <td rowspan="2" style="background-color: rgb(167, 166, 166);">Target</td>
-          <td rowspan="2" style="background-color: rgb(167, 166, 166);">Accomplished</td>
-          <td rowspan="2" style="background-color: rgb(167, 166, 166);">Date of Submission/Completion (Deadline)</td>
-          <td rowspan="2" style="background-color: rgb(167, 166, 166);">Date Submitted/Completed</td>
-          <td colspan="4" style="background-color: rgb(167, 166, 166);">Rating</td>
-          <td rowspan="2" style="background-color: rgb(167, 166, 166);">Remarks</td>
+        <tr style="height:50px; text-align: center;">
+          <td rowspan="2" style="background-color: rgb(211,211,211);">Performance Indication</td>
+          <td rowspan="2" style="background-color: rgb(211,211,211); padding-left:20px; padding-right:20px;">Target</td>
+          <td rowspan="2" style="background-color: rgb(211,211,211); padding-left:10px; padding-right:10px;">Accomplished</td>
+          <td rowspan="2" style="background-color: rgb(211,211,211); padding-left:10px; padding-right:10px;">Date of Submission/Completion (Deadline)</td>
+          <td rowspan="2" style="background-color: rgb(211,211,211); padding-left:10px; padding-right:10px;">Date Submitted/Completed</td>
+          <td colspan="4" style="background-color: rgb(211,211,211); padding-left:10px; padding-right:10px;">Rating</td>
+          <td rowspan="2" style="background-color: rgb(211,211,211); padding-left:10px; padding-right:10px;">Remarks</td>
         </tr>
         <tr>
-          <td style="background-color: rgb(167, 166, 166);">QTY</td>
-          <td style="background-color: rgb(167, 166, 166);">QL/E</td>
-          <td style="background-color: rgb(167, 166, 166);">T</td>
-          <td style="background-color: rgb(167, 166, 166);">A</td>
+          <td style="background-color: rgb(211,211,211); padding-left:20px; padding-right:20px;">QTY</td>
+          <td style="background-color: rgb(211,211,211); padding-left:20px; padding-right:20px;">QL/E</td>
+          <td style="background-color: rgb(211,211,211); padding-left:20px; padding-right:20px; text-align:center;">T</td>
+          <td style="background-color: rgb(211,211,211); padding-left:20px; padding-right:20px;">A</td>
         </tr>
         <tr style="text-align:left; background-color: #f0ed61;">
           <td colspan="10">INSTRUCTION</td>
@@ -320,7 +326,7 @@
           <td></td>
         </tr>
         <tr style="text-align:left; background-color: #f0ed61;">
-          <td colspan="10">Research</td>
+          <td colspan="10">RESEARCH</td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -342,7 +348,7 @@
         </tr>
         <tr>
           <td>
-            a) Research implemented and/or Completed within the timeframe
+            b) Research implemented and/or Completed within the timeframe
           </td>
           <td></td>
           <td></td>
@@ -354,18 +360,464 @@
           <td></td>
           <td></td>
         </tr>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        <td>
+          c) Research Presenterd in Regional/National/International Comferences
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <td>
+      d) Research Published in Peer-reviewed Journals
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <td>
+    e) Filed/Published/Approved Intellectual Property Right
+  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<td>
+  f) Research Utilized/Deployed through Commercialization/Extension/Policy
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<td>
+  g) Number of cirtation in journal/books
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr style="text-align:left; background-color: #f0ed61;">
+  <td colspan="10">EXTENSION</td>
+</tr>
+<tr>
+  <td colspan="10"><b>
+    9. Extension projects.
+  </b></td>
+<tr>
+  <td>
+    a) Extension proposal submiitted/activity conducted
+  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<td>
+  b) EPersons trained/provided with technical advise
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<td>
+  c) Persons who avail the service who rated the service as good or better
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<td>
+  d) Persons given training or advisory who rated the timeliness of service delivery as good or better
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<td>
+  e) Technical advice responded within 3 days upon request
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="text-align:left; background-color: #f0ed61;">
+  <td colspan="10">SUPPORT FUNCTION</td>
+</tr>
+<tr>
+  <td colspan="10"><b>
+    10. Perform Officially-Deligated Assignments
+  </b></td>
+</tr>
+<tr>
+  <td>
+    a) Accomplishment Report
+  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  </tr>
+  <tr>
+    <td colspan="10"><b>
+      11. Perticipated in the Flag Raising Ceremony
+    </b></td>
+  </tr>
+  <tr>
+    <td>
+      a) Attendance
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+      <td colspan="10"><b>
+        12. Participate in the Flag lowering
+      </b></td>
+    </tr>
+    <tr>
+      <td>
+        a) Attendance
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      </tr>
+      <tr>
+        <td colspan="10"><b>
+          13. Participate in the health and wellness program
+        </b></td>
+      </tr>
+      <tr>
+        <td>
+          a) Attendance sheet/Program of activities/other document as proof
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+        <tr>
+          <td colspan="10"><b>
+            14. Perticipated in school celebration and other allied activities
+          </b></td>
+        </tr>
+        <tr>
+          <td>
+            a) Attendance sheet/Program of activities/other document as proof
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+          <tr>
+            <td colspan="10"><b>
+          15. Attend training/conferences/seminars
+          </b></td>
+        </tr>
+        <tr>
+          <td>
+            a) Training/Seminar/Conference certificate of attendance/participation
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+          <tr>
+            <td colspan="10"><b>
+          16. Attend Faculty Meeting
+          </b></td>
+        </tr>
+        <tr>
+          <td>
+            a) Attendance
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+          <tr>
+            <td colspan="10"><b>
+          17. Involvement in accrelitation/ISO and other related activities
+          </b></td>
+        </tr>
+        <tr>
+          <td>
+            a) Attendance
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+          <tr>
+            <td colspan="10"><b>
+          18. Perticipate in the spiritual activities
+          </b></td>
+        </tr>
+        <tr>
+          <td>
+            a) Attendance sheet/Program of activities/other document as proof
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+          <tr style="text-align:left; background-color: #f0ed61;">
+            <td colspan="10">ADMINISTRATIVE FUNCTIONS</td>
+          </tr>
+          <tr>
+            <td colspan="10"><b>
+          19. Perform Administrative Designation Funtions
+          </b></td>
+        </tr>
+        <tr>
+          <td>
+            a) Prepare....
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+          <tr>
+            <td>
+              b) Submit....
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+            <tr>
+              <td>
+                c) Increase....
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              </tr>
+              <tr>
+                <td>
+                  d) ....
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    e) ....
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  </tr>
+                <tr style="height:18px;">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr style="height:18px;">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr style="height:18px;">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="7" rowspan = "2"><b>
+                  Comments and Recommendation for Development Purposes
+                  </b><br><br><br><br>Rating scale<br>5 - Outstanding<br>4 - Very Satisfactoy<br>3 - Satisfactory<br>2 - Unsatisfactory<br>1 - Poor 
+                    </td>
+                    <td style = "padding-right:20px; vertical-align:top; text-align:left;">Numerical Rating:</td>
+                    <td style = "padding-left:40px; padding-right:40px; vertical-align:top; text-align:center;" colspan="2">Adjectival Rating:</td>
+                  </tr>
+                  <tr style="height:100px;">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td style = "text-align:center;"><b>Discussed with:<br><br><br><b>Name</td>
+                    <td colspan="3" style = "text-align:center;"><b>Assessed by:<br><br><br><b>Name</td>
+                    <td colspan="3" style = "text-align:center;"><b>Checked by:<br><br><br><b>Name</td>
+                    <td colspan="3" style = "text-align:center;"><b>Final Rating:<br><br><br><b>Name</b></td>
+                  </tr>
+                  <t>
+                    <td style = "text-align:center;"><i>RATEE</td>
+                    <td colspan="3" style = "text-align:center;"><i>Dean/Assoc.Dean</td>
+                    <td colspan="3" style = "text-align:center;"><i>HRMO</td>
+                    <td colspan="3" style = "text-align:center;"><i>Campus Director</i></td>
+                  </t>
+                  <tr>
+                    <td>Date:</td>
+                    <td colspan="3">Date:</td>
+                    <td colspan="3">Date:</td>
+                    <td colspan="3">Date:</td>
+                  </tr>
+
         
       </table>
-</body>
+  </body>
 </html>
