@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
     <title>LOGIN PAGE</title>
     <link rel="stylesheet" href="CSS\style.css">
 </head>
+
 <?php
 // Database credentials
 $servername = "localhost";
@@ -27,9 +29,9 @@ if (!$connection) {
 }
 
 // Dean
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dean_submit"])) {
+    $username = $_POST["dean_username"];
+    $password = $_POST["dean_password"];
 
     $query = "SELECT * FROM dean_credentials WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($connection, $query);
@@ -47,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Faculty
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
+    $username = $_POST["faculty_username"];
+    $password = $_POST["faculty_password"];
 
     $query = "SELECT * FROM faculty_credentials WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($connection, $query);
@@ -69,17 +71,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 mysqli_close($connection);
 ?>
 
-    <style>
+<style>
+    body {
+        background-image: url(images/image.jpg);
+    }
+</style>
 
-        body{
-
-            background-image: url(images/image.jpg);
-
-        }
-
-    </style>
-
-    <body>
+<body>
     <header>
         <div class="header">
             <img src="images/lspu-logo.png" alt="LSPU-LOGO" class="logo">
@@ -114,8 +112,7 @@ mysqli_close($connection);
         </div>
     </div>
 
-
-    <!--LOGIN POPUP ni Dean --> 
+    <!--LOGIN POPUP ni Dean -->
     <div class="modal fade" id="deanLoginModal" tabindex="-1" aria-labelledby="deanLoginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -127,16 +124,16 @@ mysqli_close($connection);
                     <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <div class="mb-3">
                             <label for="deanUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="deanUsername" name="username" placeholder="Enter your username" required>
+                            <input type="text" class="form-control" id="deanUsername" name="dean_username" placeholder="Enter your username" required>
                         </div>
                         <div class="mb-3">
                             <label for="deanPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="deanPassword" name="password" placeholder="Enter your password" required>
+                            <input type="password" class="form-control" id="deanPassword" name="dean_password" placeholder="Enter your password" required>
                         </div>
                         <div class="mb-3">
                             <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary" name="dean_submit">Login</button>
                     </form>
                     <?php
                     if (isset($error_message)) {
@@ -148,7 +145,7 @@ mysqli_close($connection);
         </div>
     </div>
 
-    <!--LOGIN POPUP ni Faculty --> 
+    <!--LOGIN POPUP ni Faculty -->
     <div class="modal fade" id="facultyLoginModal" tabindex="-1" aria-labelledby="facultyLoginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -160,16 +157,16 @@ mysqli_close($connection);
                     <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <div class="mb-3">
                             <label for="facultyUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="facultyUsername" name="username" placeholder="Enter your username" required>
+                            <input type="text" class="form-control" id="facultyUsername" name="faculty_username" placeholder="Enter your username" required>
                         </div>
                         <div class="mb-3">
                             <label for="facultyPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="facultyPassword" name="password" placeholder="Enter your password" required>
+                            <input type="password" class="form-control" id="facultyPassword" name="faculty_password" placeholder="Enter your password" required>
                         </div>
                         <div class="mb-3">
                             <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary" name="faculty_submit">Login</button>
                     </form>
                     <?php
                     if (isset($error_message)) {
@@ -202,10 +199,6 @@ mysqli_close($connection);
         </div>
     </div>
     
-    
-
-
-
 </body>
 
 </html>
