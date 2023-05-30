@@ -1,5 +1,4 @@
 body {
-    background-image: url(CSS/images/image.jpg);
     background-position-y: center;
     background-attachment: fixed;
     background-size: cover;
@@ -33,9 +32,9 @@ body {
 }
 
 .btn-log {
-    font-size: 20px;
+    font-size: 30px;
     padding: 5px;
-    width: 90px;
+    width: 130px;
     border-radius: 10px;
     background-color: white;
 }
@@ -84,7 +83,14 @@ hr {
 }
 
 .dropdown-menu {
-    margin-top: 5px;
+    width: 200px;
+    border: solid white 2px;
+    font-size: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-menu a {
+    color: white;
 }
 
 .btn-admin {
