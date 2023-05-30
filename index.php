@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dean_submit"])) {
     $username = $_POST["dean_username"];
     $password = $_POST["dean_password"];
 
-    $query = "SELECT * FROM dean_credentials WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM dean_credentials WHERE BINARY username = '$username' AND BINARY password = '$password'";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
     $username = $_POST["faculty_username"];
     $password = $_POST["faculty_password"];
 
-    $query = "SELECT * FROM faculty_credentials WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM faculty_credentials WHERE BINARY username = '$username' AND BINARY password = '$password'";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
@@ -67,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
         echo '<script>showAlert("Query execution failed: ' . mysqli_error($connection) . '");</script>';
     }
 }
+
 
 mysqli_close($connection);
 ?>

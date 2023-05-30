@@ -1,0 +1,48 @@
+
+table {
+    width: 100%;
+}
+
+td, th {
+    padding: 10px;
+    border: solid black 1px;
+}
+
+td{
+
+    background-color: rgb(255,255,204);
+    font-size: 25px;
+
+}
+
+th {
+    text-align: left;
+    width: 100%;
+    background-color: rgb(255,255,102);
+    font-size: 30px;
+}
+
+body{
+
+    background-color: white;
+        
+}
+
+h1{
+    color: white;
+}
+
+#comments{
+
+    font-size: 20px;
+
+}
+
+#sub{
+    background-color: rgb(255,255,204);
+    font-size: 35px;
+    float: right;
+    border-radius: 10px;
+    width: 300px;
+
+}
