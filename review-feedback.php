@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Example</title>
     <style>
+
+    th{
+
+      font-size: 30px;
+
+    }
     table {
       border-collapse: collapse;
       width: 100%;
@@ -20,8 +26,8 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto;
-      width: 60px;
-      height: 60px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background-color: #e0e0e0;
       font-size: 18px;
@@ -37,7 +43,7 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background-color: #333;
+      background-color: #000;
       transform-origin: center;
       transform: rotate(-90deg);
       z-index: 1;
@@ -47,6 +53,7 @@
       display: block;
       position: relative;
       z-index: 2;
+      color: #fff;
     }
     .progress-circle span:first-child {
       font-size: 24px;

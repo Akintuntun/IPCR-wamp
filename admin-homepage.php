@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>ADMIN HOMEPAGE</title>
-    <link rel="stylesheet" href="CSS\faculty.css">
+    <link rel="stylesheet" href="CSS\admin-homepage.css">
     
 </head>
 

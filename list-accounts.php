@@ -11,11 +11,14 @@
 
         font-size: 40px;
         text-align: center;
+        border-bottom: 2px solid black;
 
     }
 
     #names{
-
+        border-width: 2px; /* Adjust the border width as needed */
+        border-style: solid;
+        border-color: black;
         font-size: 35px;
 
     }
@@ -23,7 +26,10 @@
     td{
 
         font-size: 30px;
-
+        border-width: 2px; /* Adjust the border width as needed */
+        border-style: solid;
+        border-color: black;
+        padding: 8px;
     }
 
 </style>
