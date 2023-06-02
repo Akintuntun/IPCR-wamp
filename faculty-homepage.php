@@ -10,94 +10,100 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>FACULTY HOMEPAGE</title>
-    <link rel="stylesheet" href="CSS\faculty.css">
-    
+    <link rel="stylesheet" href="CSS/faculty.css">
 </head>
 
 <style>
-    
-    body{
-
+    body {
         background-image: url(images/image.jpg);
-
     }
-
 </style>
 
 <body>
-<header>
-<?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "Akisophiekingking";
-    $database = "login_credentials";
-    $conn = mysqli_connect($servername, $username, $password, $database);
+    <?php
+        session_start();
 
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+        // Check if the session variable is set
+        if (!isset($_SESSION['faculty_username'])) {
+            // Redirect to the login page if the session variable is not set
+            header("Location: login-page.php");
+            exit();
+        }
 
-    $sql = "SELECT firstname, middlename, lastname FROM your_table_name WHERE username = 'your_username_value'";
-    $result = mysqli_query($conn, $sql);
+        // Retrieve the username from the session variable
+        $faculty_username = $_SESSION['faculty_username'];
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $firstName = $row['firstname'];
-        $middleName = $row['middlename'];
-        $lastName = $row['lastname'];
+        $servername = "localhost";
+        $username = "root";
+        $password = "Akisophiekingking";
+        $database = "login_credentials";
+        $conn = mysqli_connect($servername, $username, $password, $database);
 
-        $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
-    } else {
-        $fullName = "Juan Dela Cruz";
-    }
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
 
-    mysqli_close($conn);
-?>
+        $sql = "SELECT firstname, middlename, lastname FROM faculty_credentials WHERE username = '$faculty_username'";
+        $result = mysqli_query($conn, $sql);
 
-<header>
-    <div class="header">
-        <img src="images/lspu-logo.png" alt="LSPU-LOGO" class="logo">
-        <div class="label">
-            <h1 class="title"><i>Laguna State Polytechnic University San Pablo City Campus</i></h1>
-            <h2 class="college">College of Computer Studies</h2>
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $firstName = $row['firstname'];
+            $middleName = $row['middlename'];
+            $lastName = $row['lastname'];
+
+            $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
+        } else {
+            $fullName = "Juan Dela Cruz";
+        }
+
+        mysqli_close($conn);
+    ?>
+
+    <header>
+        <div class="header">
+            <img src="images/lspu-logo.png" alt="LSPU-LOGO" class="logo">
+            <div class="label">
+                <h1 class="title"><i>Laguna State Polytechnic University San Pablo City Campus</i></h1>
+                <h2 class="college">College of Computer Studies</h2>
+            </div>
+            <img src="images/ccs.png" alt="CCS-LOGO" class="logo">
         </div>
-        <img src="images/ccs.png" alt="CCS-LOGO" class="logo">
-    </div>
-    <div class="head-w">
-        <img src="images/opt.png" alt="" class="opt">
-        
-        <div class="account">
-            <h3 class="name"><?php echo $fullName; ?></h3>
-            <div class="dropdown">
-                <img src="images/account-logo.png" alt="" class="opt" onclick="toggleDropdown()">
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">LOGOUT</a>
+        <div class="head-w">
+            <img src="images/opt.png" alt="" class="opt">
+
+            <div class="account">
+                <h3 class="name"><?php echo $fullName; ?></h3>
+                <div class="dropdown">
+                    <img src="images/account-logo.png" alt="" class="opt" onclick="toggleDropdown()">
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">LOGOUT</a>
+                    </div>
                 </div>
             </div>
-         </div>
-        
-    </div>
-</header>
 
-<!-- Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Logout Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to log out?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Logout Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="logout()">Logout</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    
+
     <div class="main-body">
         <div class="menu">
             <ul class="options">
@@ -111,7 +117,6 @@
         <div class="frame">
             <iframe id="frameContent" src="" frameborder="0"></iframe>
         </div>
-    </div>
     </div>
 
     <script>
@@ -138,6 +143,5 @@
             window.location.href = "index.php";
         }
     </script>
-
 </body>
 </html>

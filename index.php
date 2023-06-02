@@ -15,6 +15,8 @@
 </head>
 
 <?php
+session_start();
+
 // Database credentials
 $servername = "localhost";
 $username = "root";
@@ -38,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dean_submit"])) {
 
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
+            $_SESSION['dean_username'] = $username;
+            
             header("Location: dean-homepage.php");
             exit();
         } else {
@@ -58,6 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
 
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
+            // Store the username in a session variable
+            $_SESSION['faculty_username'] = $username;
+
+            // Redirect to faculty homepage
             header("Location: faculty-homepage.php");
             exit();
         } else {
@@ -67,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
         echo '<script>showAlert("Query execution failed: ' . mysqli_error($connection) . '");</script>';
     }
 }
+
 
 
 mysqli_close($connection);

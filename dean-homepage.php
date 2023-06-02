@@ -27,6 +27,17 @@
 <body>
 <header>
 <?php
+    session_start();
+
+    // Check if the session variable is set
+    if (!isset($_SESSION['dean_username'])) {
+        // Redirect to the login page if the session variable is not set
+        header("Location: login-page.php");
+        exit();
+    }
+
+    $dean_username = $_SESSION['dean_username'];
+
     $servername = "localhost";
     $username = "root";
     $password = "Akisophiekingking";
@@ -37,7 +48,7 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT firstname, middlename, lastname FROM your_table_name WHERE username = 'your_username_value'";
+    $sql = "SELECT firstname, middlename, lastname FROM dean_credentials WHERE username = '$dean_username'";
     $result = mysqli_query($conn, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {

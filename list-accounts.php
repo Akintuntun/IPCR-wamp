@@ -59,8 +59,8 @@
           die("Connection failed: " . $conn->connect_error);
         }
 
-        // Retrieve the usernames from the dean_credentials table
-        $sql = "SELECT username FROM dean_credentials";
+        // Retrieve the names from the dean_credentials table
+        $sql = "SELECT firstname, middlename, lastname FROM dean_credentials";
         $result = $conn->query($sql);
 
         if ($result === false) {
@@ -70,15 +70,15 @@
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["username"] . "</td>";
+            echo "<td>" . $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"] . "</td>";
             echo "</tr>";
           }
         } else {
           echo "<tr><td colspan='1'>No accounts found in dean_credentials.</td></tr>";
         }
 
-        // Retrieve the usernames from the faculty_credentials table
-        $sql = "SELECT username FROM faculty_credentials";
+        // Retrieve the names from the faculty_credentials table
+        $sql = "SELECT firstname, middlename, lastname FROM faculty_credentials";
         $result = $conn->query($sql);
 
         if ($result === false) {
@@ -88,7 +88,7 @@
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["username"] . "</td>";
+            echo "<td>" . $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"] . "</td>";
             echo "</tr>";
           }
         } else {
