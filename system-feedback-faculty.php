@@ -18,7 +18,95 @@
 
     </style>
 <body>
-    <form action="submit_survey.php" method="POST">
+<?php
+// Sanitize user input to prevent SQL injection
+function sanitizeInput($input)
+{
+    $con = mysqli_connect("localhost", "root", "Akisophiekingking", "login_credentials");
+    $input = mysqli_real_escape_string($con, $input);
+    mysqli_close($con);
+    return $input;
+}
+
+// Connect to the database
+$con = mysqli_connect("localhost", "root", "Akisophiekingking", "login_credentials");
+
+// Check if the connection was successful
+if (!$con) {
+    die("Error: Could not connect to the database");
+}
+
+// Process and store the survey responses
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Process usability responses
+    $usability = array();
+    for ($i = 1; $i <= 5; $i++) {
+        $question = "question" . $i . "-Usability";
+        if (isset($_POST[$question])) {
+            $usability[$i] = sanitizeInput($_POST[$question]);
+        }
+    }
+
+    // Process accessibility responses
+    $accessibility = array();
+    for ($i = 1; $i <= 4; $i++) {
+        $question = "question" . $i . "-accessibility";
+        if (isset($_POST[$question])) {
+            $accessibility[$i] = sanitizeInput($_POST[$question]);
+        }
+    }
+
+    // Process efficiency responses
+    $efficiency = array();
+    for ($i = 1; $i <= 4; $i++) {
+        $question = "question" . $i . "-efficiency";
+        if (isset($_POST[$question])) {
+            $efficiency[$i] = sanitizeInput($_POST[$question]);
+        }
+    }
+
+    // Process effectiveness responses
+    $effectiveness = array();
+    for ($i = 1; $i <= 4; $i++) {
+        $question = "question" . $i . "-effectiveness";
+        if (isset($_POST[$question])) {
+            $effectiveness[$i] = sanitizeInput($_POST[$question]);
+        }
+    }
+
+    // Process user satisfaction responses
+    $userSatisfaction = array();
+    for ($i = 1; $i <= 5; $i++) {
+        $question = "question" . $i . "-user-satisfaction";
+        if (isset($_POST[$question])) {
+            $userSatisfaction[$i] = sanitizeInput($_POST[$question]);
+        }
+    }
+
+    // Calculate the sum for each category
+    $usabilitySum = array_sum($usability);
+    $accessibilitySum = array_sum($accessibility);
+    $efficiencySum = array_sum($efficiency);
+    $effectivenessSum = array_sum($effectiveness);
+    $userSatisfactionSum = array_sum($userSatisfaction);
+
+    // Prepare the INSERT statement
+    $stmt = mysqli_prepare($con, "INSERT INTO survey_faculty (usability, accessibility, efficiency, effectiveness, user_satisfaction) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "iiiii", $usabilitySum, $accessibilitySum, $efficiencySum, $effectivenessSum, $userSatisfactionSum);
+
+    // Execute the INSERT statement
+    if (mysqli_stmt_execute($stmt)) {
+        echo "Survey submitted successfully";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+
+    // Close the statement and database connection
+    mysqli_stmt_close($stmt);
+    mysqli_close($con);
+}
+?>
+    <form action="system-feedback-faculty.php" method="POST">
         <table>
             <tr>
                 <th>I. Usability</th>
@@ -197,7 +285,7 @@
                     <input type="radio" name="question4-accessibility" value="4">
                 </td>
                 <td>
-                    <input type="radio" name="question-accessibility" value="5" required>
+                    <input type="radio" name="question4-accessibility" value="5" required>
                 </td>     
             </tr>
     

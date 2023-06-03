@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Survey Form</title>
-    <link rel="stylesheet" href="CSS\system-dean.css">
+    <link rel="stylesheet" href="CSS\system.css">
 </head>
     <style>
 
@@ -18,7 +18,115 @@
 
     </style>
 <body>
-    <form action="submit_survey.php" method="POST">
+<?php
+// Sanitize user input to prevent SQL injection
+function sanitizeInput($con, $input)
+{
+    $input = mysqli_real_escape_string($con, $input);
+    return $input;
+}
+
+// Connect to the database
+$con = mysqli_connect("localhost", "root", "Akisophiekingking", "login_credentials");
+
+// Check if the connection was successful
+if (!$con) {
+    die("Error: Could not connect to the database");
+}
+
+// Process and store the survey responses
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Process usability responses
+    $usability = array();
+    for ($i = 1; $i <= 5; $i++) {
+        $question = "question" . $i . "-Usability";
+        if (isset($_POST[$question])) {
+            $usability[$i] = sanitizeInput($con, $_POST[$question]);
+        }
+    }
+
+    // Process accessibility responses
+    $accessibility = array();
+    for ($i = 1; $i <= 4; $i++) {
+        $question = "question" . $i . "-accessibility";
+        if (isset($_POST[$question])) {
+            $accessibility[$i] = sanitizeInput($con, $_POST[$question]);
+        }
+    }
+
+    // Process efficiency responses
+    $efficiency = array();
+    for ($i = 1; $i <= 4; $i++) {
+        $question = "question" . $i . "-efficiency";
+        if (isset($_POST[$question])) {
+            $efficiency[$i] = sanitizeInput($con, $_POST[$question]);
+        }
+    }
+
+    // Process effectiveness responses
+    $effectiveness = array();
+    for ($i = 1; $i <= 4; $i++) {
+        $question = "question" . $i . "-effectiveness";
+        if (isset($_POST[$question])) {
+            $effectiveness[$i] = sanitizeInput($con, $_POST[$question]);
+        }
+    }
+
+    // Process user satisfaction responses
+    $userSatisfaction = array();
+    for ($i = 1; $i <= 5; $i++) {
+        $question = "question" . $i . "-user-satisfaction";
+        if (isset($_POST[$question])) {
+            $userSatisfaction[$i] = sanitizeInput($con, $_POST[$question]);
+        }
+    }
+
+    // Process additional comments
+    $comments = isset($_POST['comments']) ? sanitizeInput($con, $_POST['comments']) : '';
+
+    // Calculate the sum for each category
+    $usabilitySum = array_sum($usability);
+    $accessibilitySum = array_sum($accessibility);
+    $efficiencySum = array_sum($efficiency);
+    $effectivenessSum = array_sum($effectiveness);
+    $userSatisfactionSum = array_sum($userSatisfaction);
+
+    // Prepare the INSERT statement for survey data
+    $surveyStmt = mysqli_prepare($con, "INSERT INTO survey_dean (usability, accessibility, efficiency, effectiveness, user_satisfaction) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($surveyStmt, "iiiii", $usabilitySum, $accessibilitySum, $efficiencySum, $effectivenessSum, $userSatisfactionSum);
+
+    // Execute the INSERT statement for survey data
+    if (mysqli_stmt_execute($surveyStmt)) {
+        // Retrieve the auto-generated ID of the survey entry
+        $surveyID = mysqli_insert_id($con);
+
+        // Prepare the INSERT statement for comments
+        $commentsStmt = mysqli_prepare($con, "INSERT INTO survey_comments (survey_id, comment) VALUES (?, ?)");
+        mysqli_stmt_bind_param($commentsStmt, "is", $surveyID, $comments);
+
+        // Execute the INSERT statement for comments
+        if (mysqli_stmt_execute($commentsStmt)) {
+            echo "Survey and comment submitted successfully";
+        } else {
+            echo "Error inserting comment: " . mysqli_error($con);
+        }
+
+        // Close the comments statement
+        mysqli_stmt_close($commentsStmt);
+    } else {
+        echo "Error inserting survey: " . mysqli_error($con);
+    }
+
+    // Close the survey statement and database connection
+    mysqli_stmt_close($surveyStmt);
+    mysqli_close($con);
+}
+?>
+
+
+
+
+    <form action="system-feedback-dean.php" method="POST">
         <table>
             <tr>
                 <th>I. Usability</th>
@@ -197,7 +305,7 @@
                     <input type="radio" name="question4-accessibility" value="4">
                 </td>
                 <td>
-                    <input type="radio" name="question-accessibility" value="5" required>
+                    <input type="radio" name="question4-accessibility" value="5" required>
                 </td>     
             </tr>
     
@@ -489,9 +597,9 @@
 
         <br>
         <h1>Additional Comments:</h1>            
-        <textarea id="comments" name="comments" rows="8" cols="116"></textarea>
+        <textarea id="comments" rows="8" cols="116"></textarea>
         <br><br>
-        <button type="submit" id="sub">Submit</button>
+        <input type="submit" id="sub" value="Submit"></button>
            
         
     </form>

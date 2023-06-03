@@ -26,7 +26,7 @@
         }
 
         // Retrieve the username from the session variable
-        $faculty_username = $_SESSION['faculty_username'];
+        $dean_username = $_SESSION['dean_username'];
 
         // Perform the necessary database query to fetch the faculty's full name based on the username
         $servername = "localhost";
@@ -39,7 +39,7 @@
             die("Connection failed: " . mysqli_connect_error());
         }
 
-        $sql = "SELECT firstname, middlename, lastname FROM faculty_credentials WHERE username = '$faculty_username'";
+        $sql = "SELECT firstname, middlename, lastname FROM dean_credentials WHERE username = '$dean_username'";
         $result = mysqli_query($conn, $sql);
 
         if ($result && mysqli_num_rows($result) > 0) {
