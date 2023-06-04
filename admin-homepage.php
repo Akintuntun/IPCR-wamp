@@ -26,33 +26,6 @@
 
 <body>
 <header>
-<?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "Akisophiekingking";
-    $database = "login_credentials";
-    $conn = mysqli_connect($servername, $username, $password, $database);
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    $sql = "SELECT firstname, middlename, lastname FROM your_table_name WHERE username = 'your_username_value'";
-    $result = mysqli_query($conn, $sql);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $firstName = $row['firstname'];
-        $middleName = $row['middlename'];
-        $lastName = $row['lastname'];
-
-        $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
-    } else {
-        $fullName = "Juan Dela Cruz";
-    }
-
-    mysqli_close($conn);
-?>
 
 <header>
     <div class="header">
@@ -67,7 +40,7 @@
         <img src="images/opt.png" alt="" class="opt">
         
         <div class="account">
-            <h3 class="name"><?php echo $fullName; ?></h3>
+            <h3 class="name">ADMIN</h3>
             <div class="dropdown">
                 <img src="images/account-logo.png" alt="" class="opt" onclick="toggleDropdown()">
                 <div class="dropdown-menu" id="dropdownMenu">

@@ -35,15 +35,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dean_submit"])) {
     $username = $_POST["dean_username"];
     $password = $_POST["dean_password"];
 
-    $query = "SELECT * FROM dean_credentials WHERE BINARY username = '$username' AND BINARY password = '$password'";
+    // Hash the user's input password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "SELECT * FROM dean_credentials WHERE BINARY username = '$username'";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
-            $_SESSION['dean_username'] = $username;
-            
-            header("Location: dean-homepage.php");
-            exit();
+            $row = mysqli_fetch_assoc($result);
+            $storedPassword = $row['password'];
+
+            // Compare the hashed passwords
+            if (password_verify($password, $storedPassword)) {
+                // Store the username in a session variable
+                $_SESSION['dean_username'] = $username;
+
+                // Redirect to dean homepage
+                header("Location: dean-homepage.php");
+                exit();
+            } else {
+                echo '<script>showAlert("Incorrect credentials. Please try again.");</script>';
+            }
         } else {
             echo '<script>showAlert("Incorrect credentials. Please try again.");</script>';
         }
@@ -51,23 +64,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dean_submit"])) {
         echo '<script>showAlert("Query execution failed: ' . mysqli_error($connection) . '");</script>';
     }
 }
+
 
 // Faculty
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
     $username = $_POST["faculty_username"];
     $password = $_POST["faculty_password"];
 
-    $query = "SELECT * FROM faculty_credentials WHERE BINARY username = '$username' AND BINARY password = '$password'";
+    // Hash the user's input password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "SELECT * FROM faculty_credentials WHERE BINARY username = '$username'";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
-            // Store the username in a session variable
-            $_SESSION['faculty_username'] = $username;
+            $row = mysqli_fetch_assoc($result);
+            $storedPassword = $row['password'];
 
-            // Redirect to faculty homepage
-            header("Location: faculty-homepage.php");
-            exit();
+            // Compare the hashed passwords
+            if (password_verify($password, $storedPassword)) {
+                // Store the username in a session variable
+                $_SESSION['faculty_username'] = $username;
+
+                // Redirect to faculty homepage
+                header("Location: faculty-homepage.php");
+                exit();
+            } else {
+                echo '<script>showAlert("Incorrect credentials. Please try again.");</script>';
+            }
         } else {
             echo '<script>showAlert("Incorrect credentials. Please try again.");</script>';
         }
@@ -75,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["faculty_submit"])) {
         echo '<script>showAlert("Query execution failed: ' . mysqli_error($connection) . '");</script>';
     }
 }
+
 
 
 
