@@ -29,6 +29,7 @@
 <?php
     session_start();
 
+    
     // Check if the session variable is set
     if (!isset($_SESSION['dean_username'])) {
         // Redirect to the login page if the session variable is not set

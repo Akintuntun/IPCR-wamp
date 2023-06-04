@@ -597,7 +597,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <br>
         <h1>Additional Comments:</h1>            
-        <textarea id="comments" rows="8" cols="116"></textarea>
+        <textarea id="comments" rows="8" cols="89"></textarea>
         <br><br>
         <input type="submit" id="sub" value="Submit"></button>
            

@@ -19,11 +19,11 @@
         session_start();
 
         // Check if the session variable is set
-        if (!isset($_SESSION['faculty_username'])) {
-            // Redirect to the login page if the session variable is not set
-            header("Location: login-page.php");
-            exit();
-        }
+        //if (!isset($_SESSION['faculty_username'])) {
+         //   // Redirect to the login page if the session variable is not set
+           // header("Location: login-page.php");
+            //exit();
+        //}
 
         // Retrieve the username from the session variable
         $faculty_username = $_SESSION['faculty_username'];
