@@ -113,7 +113,6 @@
     <div class="main-body">
         <div class="menu">
             <ul class="options">
-                <li onclick="changeFrame('dashboard-dean.php')">Dashboard</li>
                 <li onclick="changeFrame('ipcr-list.php')">IPCR List</li>
                 <li onclick="changeFrame('IPMT.php')">IPMT</li>
                 <li onclick="changeFrame('system-feedback-dean.php')">System Feedback</li>

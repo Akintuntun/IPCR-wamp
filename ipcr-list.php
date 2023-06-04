@@ -71,8 +71,8 @@
                 ?>
                 <tr>
                     <td><?php echo $name; ?></td>
-                   
-
+                    <td>Pending</td>
+                    <td>Donwload File</td>
                 </tr>
                 <?php
             }
