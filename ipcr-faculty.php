@@ -306,8 +306,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $remarks11 = $_POST['remarks11'];
 
     $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b.1) Test questions(term exams)/Performance's based activities (Mid Term)', '$target11', '$accomplished11', '$dateOfSubmissionCompletion11', '$dateSubmittedCompleted11',
-            '$qty11', '$qlE11', '$t11', '$a11', '$remarks11')";
+      VALUES ('$ID', 'b.1) Test questions(term exams)/Performance\\'s based activities (Mid Term)', '$target11', '$accomplished11', '$dateOfSubmissionCompletion11', '$dateSubmittedCompleted11',
+      '$qty11', '$qlE11', '$t11', '$a11', '$remarks11')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Data inserted successfully.";
@@ -326,8 +326,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $remarks12 = $_POST['remarks12'];
 
     $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b.2) Test questions(term exams)/Performance's based activities (Final Term)', '$target12', '$accomplished12', '$dateOfSubmissionCompletion12', '$dateSubmittedCompleted12',
-            '$qty12', '$qlE12', '$t12', '$a12', '$remarks12')";
+        VALUES ('$ID', 'b.2) Test questions(term exams)/Performance\\'s based activities (Final Term)', '$target12', '$accomplished12', '$dateOfSubmissionCompletion12', '$dateSubmittedCompleted12',
+        '$qty12', '$qlE12', '$t12', '$a12', '$remarks12')";
+
 
     if ($conn->query($sql) === TRUE) {
         echo "Data inserted successfully.";
@@ -958,6 +959,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
+    $numericalRating = $_POST['numerical_rating'];
+    $adjectivalRating = $_POST['adjectival_rating'];
+    $discussedWith = $_POST['discussed_with'];
+    $dateDiscussedWith = $_POST['date_discussed_with'];
+    $assessedBy = $_POST['assessed_by'];
+    $dateAssessedBy = $_POST['date_assessed_by'];
+    $checkedBy = $_POST['checked_by'];
+    $dateCheckedBy = $_POST['date_checked_by'];
+    $finalRating = $_POST['final_rating'];
+    $dateFinalRating = $_POST['date_final_rating'];
+
+    // Insert data into the ipcr_faculty table
+    $sql = "INSERT INTO ipcr_faculty (numerical_rating, adjectival_rating, discussed_with, date_discussed_with, assessed_by, date_assessed_by, checked_by, date_checked_by, final_rating, date_final_rating)
+            VALUES ('$numericalRating', '$adjectivalRating', '$discussedWith', '$dateDiscussedWith', '$assessedBy', '$dateAssessedBy', '$checkedBy', '$dateCheckedBy', '$finalRating', '$dateFinalRating')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Data inserted successfully.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
   $conn->close();
 }
 
@@ -1011,56 +1033,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) No. of Syllabus prepared
           </td> 
-            <td><input type="text" name="target1"></td>
-            <td><input type="text" name="accomplished1"></td>
+            <td><input type="number" name="target1"></td>
+            <td><input type="number" name="accomplished1"></td>
             <td><input type="date" name="submissionDate1"></td>
             <td><input type="date" name="completionDate1"></td>
-            <td><input type="text" name="qtyRating1"></td>
-            <td><input type="text" name="qlRating1"></td>
-            <td><input type="text" name="plRating1"></td>
-            <td><input type="text" name="overallRating1"></td>
+            <td><input type="number" name="qtyRating1"></td>
+            <td><input type="number" name="qlRating1"></td>
+            <td><input type="number" name="plRating1"></td>
+            <td><input type="number" name="overallRating1"></td>
             <td><input type="text" name="remarks1"></td>
         </tr>
         <tr>
           <td>
             b) No. of Course Guide
           </td>
-            <td><input type="text" name="target2"></td>
-            <td><input type="text" name="accomplished2"></td>
+            <td><input type="number" name="target2"></td>
+            <td><input type="number" name="accomplished2"></td>
             <td><input type="date" name="submissionDate2"></td>
             <td><input type="date" name="completionDate2"></td>
-            <td><input type="text" name="qtyRating2"></td>
-            <td><input type="text" name="qlRating2"></td>
-            <td><input type="text" name="plRating2"></td>
-            <td><input type="text" name="overallRating2"></td>
+            <td><input type="number" name="qtyRating2"></td>
+            <td><input type="number" name="qlRating2"></td>
+            <td><input type="number" name="plRating2"></td>
+            <td><input type="number" name="overallRating2"></td>
             <td><input type="text" name="remarks2"></td>
         </tr>
         <tr>
           <td>
             c) No. of SLM
           </td>
-            <td><input type="text" name="target3"></td>
-            <td><input type="text" name="accomplished3"></td>
+            <td><input type="number" name="target3"></td>
+            <td><input type="number" name="accomplished3"></td>
             <td><input type="date" name="submissionDate3"></td>
             <td><input type="date" name="completionDate3"></td>
-            <td><input type="text" name="qtyRating3"></td>
-            <td><input type="text" name="qlRating3"></td>
-            <td><input type="text" name="plRating3"></td>
-            <td><input type="text" name="overallRating3"></td>
+            <td><input type="number" name="qtyRating3"></td>
+            <td><input type="number" name="qlRating3"></td>
+            <td><input type="number" name="plRating3"></td>
+            <td><input type="number" name="overallRating3"></td>
             <td><input type="text" name="remarks3"></td>
         </tr>
         <tr>
           <td>
             d) No. of subject areas with community immersion/involvement component
         3</td>
-            <td><input type="text" name="target4"></td>
-            <td><input type="text" name="accomplished4"></td>
+            <td><input type="number" name="target4"></td>
+            <td><input type="number" name="accomplished4"></td>
             <td><input type="date" name="submissionDate4"></td>
             <td><input type="date" name="completionDate4"></td>
-            <td><input type="text" name="qtyRating4"></td>
-            <td><input type="text" name="qlRating4"></td>
-            <td><input type="text" name="plRating4"></td>
-            <td><input type="text" name="overallRating4"></td>
+            <td><input type="number" name="qtyRating4"></td>
+            <td><input type="number" name="qlRating4"></td>
+            <td><input type="number" name="plRating4"></td>
+            <td><input type="number" name="overallRating4"></td>
             <td><input type="text" name="remarks4"></td>
         </tr>
         <tr>
@@ -1071,28 +1093,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Attendance Sheet
           </td>
-            <td><input type="text" name="target5"></td>
-            <td><input type="text" name="accomplished5"></td>
+            <td><input type="number" name="target5"></td>
+            <td><input type="number" name="accomplished5"></td>
             <td><input type="date" name="submissionDate5"></td>
             <td><input type="date" name="completionDate5"></td>
-            <td><input type="text" name="qtyRating5"></td>
-            <td><input type="text" name="qlRating5"></td>
-            <td><input type="text" name="plRating5"></td>
-            <td><input type="text" name="overallRating5"></td>
+            <td><input type="number" name="qtyRating5"></td>
+            <td><input type="number" name="qlRating5"></td>
+            <td><input type="number" name="plRating5"></td>
+            <td><input type="number" name="overallRating5"></td>
             <td><input type="text" name="remarks5"></td>
         </tr>
         <tr>
           <td>
             b) Class Records
           </td>
-            <td><input type="text" name="target6"></td>
-            <td><input type="text" name="accomplished6"></td>
+            <td><input type="number" name="target6"></td>
+            <td><input type="number" name="accomplished6"></td>
             <td><input type="date" name="submissionDate6"></td>
             <td><input type="date" name="completionDate6"></td>
-            <td><input type="text" name="qtyRating6"></td>
-            <td><input type="text" name="qlRating6"></td>
-            <td><input type="text" name="plRating6"></td>
-            <td><input type="text" name="overallRating6"></td>
+            <td><input type="number" name="qtyRating6"></td>
+            <td><input type="number" name="qlRating6"></td>
+            <td><input type="number" name="plRating6"></td>
+            <td><input type="number" name="overallRating6"></td>
             <td><input type="text" name="remarks6"></td>
         </tr>
         <tr>
@@ -1103,28 +1125,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Evaluation of Teaching Effectiveness (CQA-SF-012)
           </td>
-            <td><input type="text" name="target7"></td>
-            <td><input type="text" name="accomplished7"></td>
+            <td><input type="number" name="target7"></td>
+            <td><input type="number" name="accomplished7"></td>
             <td><input type="date" name="submissionDate7"></td>
             <td><input type="date" name="completionDate7"></td>
-            <td><input type="text" name="qtyRating7"></td>
-            <td><input type="text" name="qlRating7"></td>
-            <td><input type="text" name="plRating7"></td>
-            <td><input type="text" name="overallRating7"></td>
+            <td><input type="number" name="qtyRating7"></td>
+            <td><input type="number" name="qlRating7"></td>
+            <td><input type="number" name="plRating7"></td>
+            <td><input type="number" name="overallRating7"></td>
             <td><input type="text" name="remarks7"></td>
         </tr>
         <tr>  
           <td>
             b) Class Observation (CQA-SF-012)
           </td>
-            <td><input type="text" name="target8"></td>
-            <td><input type="text" name="accomplished8"></td>
+            <td><input type="number" name="target8"></td>
+            <td><input type="number" name="accomplished8"></td>
             <td><input type="date" name="submissionDate8"></td>
             <td><input type="date" name="completionDate8"></td>
-            <td><input type="text" name="qtyRating8"></td>
-            <td><input type="text" name="qlRating8"></td>
-            <td><input type="text" name="plRating8"></td>
-            <td><input type="text" name="overallRating8"></td>
+            <td><input type="number" name="qtyRating8"></td>
+            <td><input type="number" name="qlRating8"></td>
+            <td><input type="number" name="plRating8"></td>
+            <td><input type="number" name="overallRating8"></td>
             <td><input type="text" name="remarks8"></td>
         </tr>
         <tr>
@@ -1135,84 +1157,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a.1) TOS/Rubrics(Mid Term)
           </td>
-            <td><input type="text" name="target9"></td>
-            <td><input type="text" name="accomplished9"></td>
+            <td><input type="number" name="target9"></td>
+            <td><input type="number" name="accomplished9"></td>
             <td><input type="date" name="submissionDate9"></td>
             <td><input type="date" name="completionDate9"></td>
-            <td><input type="text" name="qtyRating9"></td>
-            <td><input type="text" name="qlRating9"></td>
-            <td><input type="text" name="plRating9"></td>
-            <td><input type="text" name="overallRating9"></td>
+            <td><input type="number" name="qtyRating9"></td>
+            <td><input type="number" name="qlRating9"></td>
+            <td><input type="number" name="plRating9"></td>
+            <td><input type="number" name="overallRating9"></td>
             <td><input type="text" name="remarks9"></td>
         </tr>
         <tr>
           <td>
             a.2) TOS/Rubrics(Final Term)
           </td>
-            <td><input type="text" name="target10"></td>
-            <td><input type="text" name="accomplished10"></td>
+            <td><input type="number" name="target10"></td>
+            <td><input type="number" name="accomplished10"></td>
             <td><input type="date" name="submissionDate10"></td>
             <td><input type="date" name="completionDate10"></td>
-            <td><input type="text" name="qtyRating10"></td>
-            <td><input type="text" name="qlRating10"></td>
-            <td><input type="text" name="plRating10"></td>
-            <td><input type="text" name="overallRating10"></td>
+            <td><input type="number" name="qtyRating10"></td>
+            <td><input type="number" name="qlRating10"></td>
+            <td><input type="number" name="plRating10"></td>
+            <td><input type="number" name="overallRating10"></td>
             <td><input type="text" name="remarks10"></td>
         </tr>
         <tr>
           <td>
             b.1) Test questions(term exams)/Performance's based activities (Mid Term)
           </td>
-            <td><input type="text" name="target11"></td>
-            <td><input type="text" name="accomplished11"></td>
+            <td><input type="number" name="target11"></td>
+            <td><input type="number" name="accomplished11"></td>
             <td><input type="date" name="submissionDate11"></td>
             <td><input type="date" name="completionDate11"></td>
-            <td><input type="text" name="qtyRating11"></td>
-            <td><input type="text" name="qlRating11"></td>
-            <td><input type="text" name="plRating11"></td>
-            <td><input type="text" name="overallRating11"></td>
+            <td><input type="number" name="qtyRating11"></td>
+            <td><input type="number" name="qlRating11"></td>
+            <td><input type="number" name="plRating11"></td>
+            <td><input type="number" name="overallRating11"></td>
             <td><input type="text" name="remarks11"></td>
         </tr>
         <tr>
           <td>
             b.2) Test questions(term exams)/Performance's based activities (Final Term)
           </td>
-            <td><input type="text" name="target12"></td>
-            <td><input type="text" name="accomplished12"></td>
+            <td><input type="number" name="target12"></td>
+            <td><input type="number" name="accomplished12"></td>
             <td><input type="date" name="submissionDate12"></td>
             <td><input type="date" name="completionDate12"></td>
-            <td><input type="text" name="qtyRating12"></td>
-            <td><input type="text" name="qlRating12"></td>
-            <td><input type="text" name="plRating12"></td>
-            <td><input type="text" name="overallRating12"></td>
+            <td><input type="number" name="qtyRating12"></td>
+            <td><input type="number" name="qlRating12"></td>
+            <td><input type="number" name="plRating12"></td>
+            <td><input type="number" name="overallRating12"></td>
             <td><input type="text" name="remarks12"></td>
         </tr>
         <tr>
           <td>
             c.1) Answer Keys (Mid Term)
           </td>
-            <td><input type="text" name="target13"></td>
-            <td><input type="text" name="accomplished13"></td>
+            <td><input type="number" name="target13"></td>
+            <td><input type="number" name="accomplished13"></td>
             <td><input type="date" name="submissionDate13"></td>
             <td><input type="date" name="completionDate13"></td>
-            <td><input type="text" name="qtyRating13"></td>
-            <td><input type="text" name="qlRating13"></td>
-            <td><input type="text" name="plRating13"></td>
-            <td><input type="text" name="overallRating13"></td>
+            <td><input type="number" name="qtyRating13"></td>
+            <td><input type="number" name="qlRating13"></td>
+            <td><input type="number" name="plRating13"></td>
+            <td><input type="number" name="overallRating13"></td>
             <td><input type="text" name="remarks13"></td>
         </tr>
         <tr>
           <td>
             c.2) Answer Keys (Final Term)
           </td>
-            <td><input type="text" name="target14"></td>
-            <td><input type="text" name="accomplished14"></td>
+            <td><input type="number" name="target14"></td>
+            <td><input type="number" name="accomplished14"></td>
             <td><input type="date" name="submissionDate14"></td>
             <td><input type="date" name="completionDate14"></td>
-            <td><input type="text" name="qtyRating14"></td>
-            <td><input type="text" name="qlRating14"></td>
-            <td><input type="text" name="plRating14"></td>
-            <td><input type="text" name="overallRating14"></td>
+            <td><input type="number" name="qtyRating14"></td>
+            <td><input type="number" name="qlRating14"></td>
+            <td><input type="number" name="plRating14"></td>
+            <td><input type="number" name="overallRating14"></td>
             <td><input type="text" name="remarks14"></td>
         </tr>
         <tr>
@@ -1223,14 +1245,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) No. of grading sheets submitted and encoded
           </td>
-            <td><input type="text" name="target15"></td>
-            <td><input type="text" name="accomplished15"></td>
+            <td><input type="number" name="target15"></td>
+            <td><input type="number" name="accomplished15"></td>
             <td><input type="date" name="submissionDate15"></td>
             <td><input type="date" name="completionDate15"></td>
-            <td><input type="text" name="qtyRating15"></td>
-            <td><input type="text" name="qlRating15"></td>
-            <td><input type="text" name="plRating15"></td>
-            <td><input type="text" name="overallRating15"></td>
+            <td><input type="number" name="qtyRating15"></td>
+            <td><input type="number" name="qlRating15"></td>
+            <td><input type="number" name="plRating15"></td>
+            <td><input type="number" name="overallRating15"></td>
             <td><input type="text" name="remarks15"></td>
         </tr>
         <tr>
@@ -1241,14 +1263,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) No. of faculty & students seek advices (LSPU-ACAD-011)
           </td>
-            <td><input type="text" name="target16"></td>
-            <td><input type="text" name="accomplished16"></td>
+            <td><input type="number" name="target16"></td>
+            <td><input type="number" name="accomplished16"></td>
             <td><input type="date" name="submissionDate16"></td>
             <td><input type="date" name="completionDate16"></td>
-            <td><input type="text" name="qtyRating16"></td>
-            <td><input type="text" name="qlRating16"></td>
-            <td><input type="text" name="plRating16"></td>
-            <td><input type="text" name="overallRating16"></td>
+            <td><input type="number" name="qtyRating16"></td>
+            <td><input type="number" name="qlRating16"></td>
+            <td><input type="number" name="plRating16"></td>
+            <td><input type="number" name="overallRating16"></td>
             <td><input type="text" name="remarks16"></td>
         </tr>
         <tr>
@@ -1259,14 +1281,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Accomplishment Report
           </td>
-            <td><input type="text" name="target17"></td>
-            <td><input type="text" name="accomplished17"></td>
+            <td><input type="number" name="target17"></td>
+            <td><input type="number" name="accomplished17"></td>
             <td><input type="date" name="submissionDate17"></td>
             <td><input type="date" name="completionDate17"></td>
-            <td><input type="text" name="qtyRating17"></td>
-            <td><input type="text" name="qlRating17"></td>
-            <td><input type="text" name="plRating17"></td>
-            <td><input type="text" name="overallRating17"></td>
+            <td><input type="number" name="qtyRating17"></td>
+            <td><input type="number" name="qlRating17"></td>
+            <td><input type="number" name="plRating17"></td>
+            <td><input type="number" name="overallRating17"></td>
             <td><input type="text" name="remarks17"></td>
         </tr>
         <tr style="text-align:left; background-color: #f0ed61;">
@@ -1280,93 +1302,93 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Research proposal submitted/Activity conducted
           </td>
-            <td><input type="text" name="target18"></td>
-            <td><input type="text" name="accomplished18"></td>
+            <td><input type="number" name="target18"></td>
+            <td><input type="number" name="accomplished18"></td>
             <td><input type="date" name="submissionDate18"></td>
             <td><input type="date" name="completionDate18"></td>
-            <td><input type="text" name="qtyRating18"></td>
-            <td><input type="text" name="qlRating18"></td>
-            <td><input type="text" name="plRating18"></td>
-            <td><input type="text" name="overallRating18"></td>
+            <td><input type="number" name="qtyRating18"></td>
+            <td><input type="number" name="qlRating18"></td>
+            <td><input type="number" name="plRating18"></td>
+            <td><input type="number" name="overallRating18"></td>
             <td><input type="text" name="remarks18"></td>
         </tr>
         <tr>
           <td>
             b) Research implemented and/or Completed within the timeframe
           </td>
-            <td><input type="text" name="target19"></td>
-            <td><input type="text" name="accomplished19"></td>
+            <td><input type="number" name="target19"></td>
+            <td><input type="number" name="accomplished19"></td>
             <td><input type="date" name="submissionDate19"></td>
             <td><input type="date" name="completionDate19"></td>
-            <td><input type="text" name="qtyRating19"></td>
-            <td><input type="text" name="qlRating19"></td>
-            <td><input type="text" name="plRating19"></td>
-            <td><input type="text" name="overallRating19"></td>
+            <td><input type="number" name="qtyRating19"></td>
+            <td><input type="number" name="qlRating19"></td>
+            <td><input type="number" name="plRating19"></td>
+            <td><input type="number" name="overallRating19"></td>
             <td><input type="text" name="remarks19"></td>
         </tr>
         <td>
           c) Research Presenterd in Regional/National/International Comferences
         </td>
-            <td><input type="text" name="target20"></td>
-            <td><input type="text" name="accomplished20"></td>
+            <td><input type="number" name="target20"></td>
+            <td><input type="number" name="accomplished20"></td>
             <td><input type="date" name="submissionDate20"></td>
             <td><input type="date" name="completionDate20"></td>
-            <td><input type="text" name="qtyRating20"></td>
-            <td><input type="text" name="qlRating20"></td>
-            <td><input type="text" name="plRating20"></td>
-            <td><input type="text" name="overallRating20"></td>
+            <td><input type="number" name="qtyRating20"></td>
+            <td><input type="number" name="qlRating20"></td>
+            <td><input type="number" name="plRating20"></td>
+            <td><input type="number" name="overallRating20"></td>
             <td><input type="text" name="remarks20"></td>
       </tr>
       <td>
       d) Research Published in Peer-reviewed Journals
     </td>
-            <td><input type="text" name="target21"></td>
-            <td><input type="text" name="accomplished21"></td>
+            <td><input type="number" name="target21"></td>
+            <td><input type="number" name="accomplished21"></td>
             <td><input type="date" name="submissionDate21"></td>
             <td><input type="date" name="completionDate21"></td>
-            <td><input type="text" name="qtyRating21"></td>
-            <td><input type="text" name="qlRating21"></td>
-            <td><input type="text" name="plRating21"></td>
-            <td><input type="text" name="overallRating21"></td>
+            <td><input type="number" name="qtyRating21"></td>
+            <td><input type="number" name="qlRating21"></td>
+            <td><input type="number" name="plRating21"></td>
+            <td><input type="number" name="overallRating21"></td>
             <td><input type="text" name="remarks21"></td>
   </tr>
   <td>
     e) Filed/Published/Approved Intellectual Property Right
   </td>
-            <td><input type="text" name="target22"></td>
-            <td><input type="text" name="accomplished22"></td>
+            <td><input type="number" name="target22"></td>
+            <td><input type="number" name="accomplished22"></td>
             <td><input type="date" name="submissionDate22"></td>
             <td><input type="date" name="completionDate22"></td>
-            <td><input type="text" name="qtyRating22"></td>
-            <td><input type="text" name="qlRating22"></td>
-            <td><input type="text" name="plRating22"></td>
-            <td><input type="text" name="overallRating22"></td>
+            <td><input type="number" name="qtyRating22"></td>
+            <td><input type="number" name="qlRating22"></td>
+            <td><input type="number" name="plRating22"></td>
+            <td><input type="number" name="overallRating22"></td>
             <td><input type="text" name="remarks22"></td>
 </tr>
 <td>
   f) Research Utilized/Deployed through Commercialization/Extension/Policy
 </td>
-            <td><input type="text" name="target23"></td>
-            <td><input type="text" name="accomplished23"></td>
+            <td><input type="number" name="target23"></td>
+            <td><input type="number" name="accomplished23"></td>
             <td><input type="date" name="submissionDate23"></td>
             <td><input type="date" name="completionDate23"></td>
-            <td><input type="text" name="qtyRating23"></td>
-            <td><input type="text" name="qlRating23"></td>
-            <td><input type="text" name="plRating23"></td>
-            <td><input type="text" name="overallRating23"></td>
+            <td><input type="number" name="qtyRating23"></td>
+            <td><input type="number" name="qlRating23"></td>
+            <td><input type="number" name="plRating23"></td>
+            <td><input type="number" name="overallRating23"></td>
             <td><input type="text" name="remarks23"></td>
 </tr>
 <td>
   g) Number of cirtation in journal/books
 </td>
-            <td><input type="text" name="target24"></td>
-            <td><input type="text" name="accomplished24"></td>
+            <td><input type="number" name="target24"></td>
+            <td><input type="number" name="accomplished24"></td>
             <td><input type="date" name="submissionDate24"></td>
             <td><input type="date" name="completionDate24"></td>
-            <td><input type="text" name="qtyRating24"></td>
-            <td><input type="text" name="qlRating24"></td>
-            <td><input type="text" name="plRating24"></td>
-            <td><input type="text" name="overallRating24"></td>
+            <td><input type="number" name="qtyRating24"></td>
+            <td><input type="number" name="qlRating24"></td>
+            <td><input type="number" name="plRating24"></td>
+            <td><input type="number" name="overallRating24"></td>
             <td><input type="text" name="remarks24"></td>
 </tr>
 
@@ -1381,66 +1403,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <td>
     a) Extension proposal submiitted/activity conducted
   </td>
-            <td><input type="text" name="target25"></td>
-            <td><input type="text" name="accomplished25"></td>
+            <td><input type="number" name="target25"></td>
+            <td><input type="number" name="accomplished25"></td>
             <td><input type="date" name="submissionDate25"></td>
             <td><input type="date" name="completionDate25"></td>
-            <td><input type="text" name="qtyRating25"></td>
-            <td><input type="text" name="qlRating25"></td>
-            <td><input type="text" name="plRating25"></td>
-            <td><input type="text" name="overallRating25"></td>
+            <td><input type="number" name="qtyRating25"></td>
+            <td><input type="number" name="qlRating25"></td>
+            <td><input type="number" name="plRating25"></td>
+            <td><input type="number" name="overallRating25"></td>
             <td><input type="text" name="remarks25"></td>
 </tr>
 <td>
   b) EPersons trained/provided with technical advise
 </td>
-            <td><input type="text" name="target26"></td>
-            <td><input type="text" name="accomplished26"></td>
+            <td><input type="number" name="target26"></td>
+            <td><input type="number" name="accomplished26"></td>
             <td><input type="date" name="submissionDate26"></td>
             <td><input type="date" name="completionDate26"></td>
-            <td><input type="text" name="qtyRating26"></td>
-            <td><input type="text" name="qlRating26"></td>
-            <td><input type="text" name="plRating26"></td>
-            <td><input type="text" name="overallRating26"></td>
+            <td><input type="number" name="qtyRating26"></td>
+            <td><input type="number" name="qlRating26"></td>
+            <td><input type="number" name="plRating26"></td>
+            <td><input type="number" name="overallRating26"></td>
             <td><input type="text" name="remarks26"></td>
 </tr>
 <td>
   c) Persons who avail the service who rated the service as good or better
 </td>
-            <td><input type="text" name="target27"></td>
-            <td><input type="text" name="accomplished27"></td>
+            <td><input type="number" name="target27"></td>
+            <td><input type="number" name="accomplished27"></td>
             <td><input type="date" name="submissionDate27"></td>
             <td><input type="date" name="completionDate27"></td>
-            <td><input type="text" name="qtyRating27"></td>
-            <td><input type="text" name="qlRating27"></td>
-            <td><input type="text" name="plRating27"></td>
-            <td><input type="text" name="overallRating27"></td>
+            <td><input type="number" name="qtyRating27"></td>
+            <td><input type="number" name="qlRating27"></td>
+            <td><input type="number" name="plRating27"></td>
+            <td><input type="number" name="overallRating27"></td>
             <td><input type="text" name="remarks27"></td>
 </tr>
 <td>
   d) Persons given training or advisory who rated the timeliness of service delivery as good or better
 </td>
-            <td><input type="text" name="target28"></td>
-            <td><input type="text" name="accomplished28"></td>
+            <td><input type="number" name="target28"></td>
+            <td><input type="number" name="accomplished28"></td>
             <td><input type="date" name="submissionDate28"></td>
             <td><input type="date" name="completionDate28"></td>
-            <td><input type="text" name="qtyRating28"></td>
-            <td><input type="text" name="qlRating28"></td>
-            <td><input type="text" name="plRating28"></td>
-            <td><input type="text" name="overallRating28"></td>
+            <td><input type="number" name="qtyRating28"></td>
+            <td><input type="number" name="qlRating28"></td>
+            <td><input type="number" name="plRating28"></td>
+            <td><input type="number" name="overallRating28"></td>
             <td><input type="text" name="remarks28"></td>
 </tr>
 <td>
   e) Technical advice responded within 3 days upon request
 </td>
-            <td><input type="text" name="target29"></td>
-            <td><input type="text" name="accomplished29"></td>
+            <td><input type="number" name="target29"></td>
+            <td><input type="number" name="accomplished29"></td>
             <td><input type="date" name="submissionDate29"></td>
             <td><input type="date" name="completionDate29"></td>
-            <td><input type="text" name="qtyRating29"></td>
-            <td><input type="text" name="qlRating29"></td>
-            <td><input type="text" name="plRating29"></td>
-            <td><input type="text" name="overallRating29"></td>
+            <td><input type="number" name="qtyRating29"></td>
+            <td><input type="number" name="qlRating29"></td>
+            <td><input type="number" name="plRating29"></td>
+            <td><input type="number" name="overallRating29"></td>
             <td><input type="text" name="remarks29"></td>
 </tr>
 <tr style="text-align:left; background-color: #f0ed61;">
@@ -1455,14 +1477,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <td>
     a) Accomplishment Report
   </td>
-            <td><input type="text" name="target30"></td>
-            <td><input type="text" name="accomplished30"></td>
+            <td><input type="number" name="target30"></td>
+            <td><input type="number" name="accomplished30"></td>
             <td><input type="date" name="submissionDate30"></td>
             <td><input type="date" name="completionDate30"></td>
-            <td><input type="text" name="qtyRating30"></td>
-            <td><input type="text" name="qlRating30"></td>
-            <td><input type="text" name="plRating30"></td>
-            <td><input type="text" name="overallRating30"></td>
+            <td><input type="number" name="qtyRating30"></td>
+            <td><input type="number" name="qlRating30"></td>
+            <td><input type="number" name="plRating30"></td>
+            <td><input type="number" name="overallRating30"></td>
             <td><input type="text" name="remarks30"></td>
   </tr>
   <tr>
@@ -1474,14 +1496,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <td>
       a) Attendance
     </td>
-            <td><input type="text" name="target31"></td>
-            <td><input type="text" name="accomplished31"></td>
+            <td><input type="number" name="target31"></td>
+            <td><input type="number" name="accomplished31"></td>
             <td><input type="date" name="submissionDate31"></td>
             <td><input type="date" name="completionDate31"></td>
-            <td><input type="text" name="qtyRating31"></td>
-            <td><input type="text" name="qlRating31"></td>
-            <td><input type="text" name="plRating31"></td>
-            <td><input type="text" name="overallRating31"></td>
+            <td><input type="number" name="qtyRating31"></td>
+            <td><input type="number" name="qlRating31"></td>
+            <td><input type="number" name="plRating31"></td>
+            <td><input type="number" name="overallRating31"></td>
             <td><input type="text" name="remarks31"></td>
     </tr>
     <tr>
@@ -1493,14 +1515,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <td>
         a) Attendance
       </td>
-            <td><input type="text" name="target32"></td>
-            <td><input type="text" name="accomplished32"></td>
+            <td><input type="number" name="target32"></td>
+            <td><input type="number" name="accomplished32"></td>
             <td><input type="date" name="submissionDate32"></td>
             <td><input type="date" name="completionDate32"></td>
-            <td><input type="text" name="qtyRating32"></td>
-            <td><input type="text" name="qlRating32"></td>
-            <td><input type="text" name="plRating32"></td>
-            <td><input type="text" name="overallRating32"></td>
+            <td><input type="number" name="qtyRating32"></td>
+            <td><input type="number" name="qlRating32"></td>
+            <td><input type="number" name="plRating32"></td>
+            <td><input type="number" name="overallRating32"></td>
             <td><input type="text" name="remarks32"></td>
       </tr>
       <tr>
@@ -1512,14 +1534,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <td>
           a) Attendance sheet/Program of activities/other document as proof
         </td>
-            <td><input type="text" name="target33"></td>
-            <td><input type="text" name="accomplished33"></td>
+            <td><input type="number" name="target33"></td>
+            <td><input type="number" name="accomplished33"></td>
             <td><input type="date" name="submissionDate33"></td>
             <td><input type="date" name="completionDate33"></td>
-            <td><input type="text" name="qtyRating33"></td>
-            <td><input type="text" name="qlRating33"></td>
-            <td><input type="text" name="plRating33"></td>
-            <td><input type="text" name="overallRating33"></td>
+            <td><input type="number" name="qtyRating33"></td>
+            <td><input type="number" name="qlRating33"></td>
+            <td><input type="number" name="plRating33"></td>
+            <td><input type="number" name="overallRating33"></td>
             <td><input type="text" name="remarks33"></td>
         </tr>
         <tr>
@@ -1531,14 +1553,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Attendance sheet/Program of activities/other document as proof
           </td>
-            <td><input type="text" name="target34"></td>
-            <td><input type="text" name="accomplished34"></td>
+            <td><input type="number" name="target34"></td>
+            <td><input type="number" name="accomplished34"></td>
             <td><input type="date" name="submissionDate34"></td>
             <td><input type="date" name="completionDate34"></td>
-            <td><input type="text" name="qtyRating34"></td>
-            <td><input type="text" name="qlRating34"></td>
-            <td><input type="text" name="plRating34"></td>
-            <td><input type="text" name="overallRating34"></td>
+            <td><input type="number" name="qtyRating34"></td>
+            <td><input type="number" name="qlRating34"></td>
+            <td><input type="number" name="plRating34"></td>
+            <td><input type="number" name="overallRating34"></td>
             <td><input type="text" name="remarks34"></td>
           </tr>
           <tr>
@@ -1550,14 +1572,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Training/Seminar/Conference certificate of attendance/participation
           </td>
-            <td><input type="text" name="target35"></td>
-            <td><input type="text" name="accomplished35"></td>
+            <td><input type="number" name="target35"></td>
+            <td><input type="number" name="accomplished35"></td>
             <td><input type="date" name="submissionDate35"></td>
             <td><input type="date" name="completionDate35"></td>
-            <td><input type="text" name="qtyRating35"></td>
-            <td><input type="text" name="qlRating35"></td>
-            <td><input type="text" name="plRating35"></td>
-            <td><input type="text" name="overallRating35"></td>
+            <td><input type="number" name="qtyRating35"></td>
+            <td><input type="number" name="qlRating35"></td>
+            <td><input type="number" name="plRating35"></td>
+            <td><input type="number" name="overallRating35"></td>
             <td><input type="text" name="remarks35"></td>
           </tr>
           <tr>
@@ -1569,14 +1591,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Attendance
           </td>
-            <td><input type="text" name="target36"></td>
-            <td><input type="text" name="accomplished36"></td>
+            <td><input type="number" name="target36"></td>
+            <td><input type="number" name="accomplished36"></td>
             <td><input type="date" name="submissionDate36"></td>
             <td><input type="date" name="completionDate36"></td>
-            <td><input type="text" name="qtyRating36"></td>
-            <td><input type="text" name="qlRating36"></td>
-            <td><input type="text" name="plRating36"></td>
-            <td><input type="text" name="overallRating36"></td>
+            <td><input type="number" name="qtyRating36"></td>
+            <td><input type="number" name="qlRating36"></td>
+            <td><input type="number" name="plRating36"></td>
+            <td><input type="number" name="overallRating36"></td>
             <td><input type="text" name="remarks36"></td>
           </tr>
           <tr>
@@ -1588,14 +1610,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Attendance
           </td>
-            <td><input type="text" name="target37"></td>
-            <td><input type="text" name="accomplished37"></td>
+            <td><input type="number" name="target37"></td>
+            <td><input type="number" name="accomplished37"></td>
             <td><input type="date" name="submissionDate37"></td>
             <td><input type="date" name="completionDate37"></td>
-            <td><input type="text" name="qtyRating37"></td>
-            <td><input type="text" name="qlRating37"></td>
-            <td><input type="text" name="plRating37"></td>
-            <td><input type="text" name="overallRating37"></td>
+            <td><input type="number" name="qtyRating37"></td>
+            <td><input type="number" name="qlRating37"></td>
+            <td><input type="number" name="plRating37"></td>
+            <td><input type="number" name="overallRating37"></td>
             <td><input type="text" name="remarks37"></td>
           </tr>
           <tr>
@@ -1607,14 +1629,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Attendance sheet/Program of activities/other document as proof
           </td>
-            <td><input type="text" name="target38"></td>
-            <td><input type="text" name="accomplished38"></td>
+            <td><input type="number" name="target38"></td>
+            <td><input type="number" name="accomplished38"></td>
             <td><input type="date" name="submissionDate38"></td>
             <td><input type="date" name="completionDate38"></td>
-            <td><input type="text" name="qtyRating38"></td>
-            <td><input type="text" name="qlRating38"></td>
-            <td><input type="text" name="plRating38"></td>
-            <td><input type="text" name="overallRating38"></td>
+            <td><input type="number" name="qtyRating38"></td>
+            <td><input type="number" name="qlRating38"></td>
+            <td><input type="number" name="plRating38"></td>
+            <td><input type="number" name="overallRating38"></td>
             <td><input type="text" name="remarks38"></td>
           </tr>
           <tr style="text-align:left; background-color: #f0ed61;">
@@ -1629,70 +1651,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td>
             a) Prepare....
           </td>
-            <td><input type="text" name="target39"></td>
-            <td><input type="text" name="accomplished39"></td>
+            <td><input type="numbert" name="target39"></td>
+            <td><input type="number" name="accomplished39"></td>
             <td><input type="date" name="submissionDate39"></td>
             <td><input type="date" name="completionDate39"></td>
-            <td><input type="text" name="qtyRating39"></td>
-            <td><input type="text" name="qlRating39"></td>
-            <td><input type="text" name="plRating39"></td>
-            <td><input type="text" name="overallRating39"></td>
+            <td><input type="number" name="qtyRating39"></td>
+            <td><input type="number" name="qlRating39"></td>
+            <td><input type="number" name="plRating39"></td>
+            <td><input type="number" name="overallRating39"></td>
             <td><input type="text" name="remarks39"></td>
           </tr>
           <tr>
             <td>
               b) Submit....
             </td>
-              <td><input type="text" name="target40"></td>
-              <td><input type="text" name="accomplished40"></td>
+              <td><input type="number" name="target40"></td>
+              <td><input type="number" name="accomplished40"></td>
               <td><input type="date" name="submissionDate40"></td>
               <td><input type="date" name="completionDate40"></td>
-              <td><input type="text" name="qtyRating40"></td>
-              <td><input type="text" name="qlRating40"></td>
-              <td><input type="text" name="plRating40"></td>
-              <td><input type="text" name="overallRating40"></td>
+              <td><input type="number" name="qtyRating40"></td>
+              <td><input type="number" name="qlRating40"></td>
+              <td><input type="number" name="plRating40"></td>
+              <td><input type="number" name="overallRating40"></td>
               <td><input type="text" name="remarks40"></td>
             </tr>
             <tr>
               <td>
                 c) Increase....
               </td>
-              <td><input type="text" name="target41"></td>
-              <td><input type="text" name="accomplished41"></td>
+              <td><input type="number" name="target41"></td>
+              <td><input type="number" name="accomplished41"></td>
               <td><input type="date" name="submissionDate41"></td>
               <td><input type="date" name="completionDate41"></td>
-              <td><input type="text" name="qtyRating41"></td>
-              <td><input type="text" name="qlRating41"></td>
-              <td><input type="text" name="plRating41"></td>
-              <td><input type="text" name="overallRating41"></td>
+              <td><input type="number" name="qtyRating41"></td>
+              <td><input type="number" name="qlRating41"></td>
+              <td><input type="number" name="plRating41"></td>
+              <td><input type="number" name="overallRating41"></td>
               <td><input type="text" name="remarks41"></td>
               </tr>
               <tr>
                 <td>
                   d) ....
                 </td>
-                <td><input type="text" name="target42"></td>
-                <td><input type="text" name="accomplished42"></td>
+                <td><input type="number" name="target42"></td>
+                <td><input type="number" name="accomplished42"></td>
                 <td><input type="date" name="submissionDate42"></td>
                 <td><input type="date" name="completionDate42"></td>
-                <td><input type="text" name="qtyRating42"></td>
-                <td><input type="text" name="qlRating42"></td>
-                <td><input type="text" name="plRating42"></td>
-                <td><input type="text" name="overallRating42"></td>
+                <td><input type="number" name="qtyRating42"></td>
+                <td><input type="number" name="qlRating42"></td>
+                <td><input type="number" name="plRating42"></td>
+                <td><input type="number" name="overallRating42"></td>
                 <td><input type="text" name="remarks42"></td>
                 </tr>
                 <tr>
                   <td>
                     e) ....
                   </td>
-                  <td><input type="text" name="target43"></td>
-                  <td><input type="text" name="accomplished43"></td>
+                  <td><input type="number" name="target43"></td>
+                  <td><input type="number" name="accomplished43"></td>
                   <td><input type="date" name="submissionDate43"></td>
                   <td><input type="date" name="completionDate43"></td>
-                  <td><input type="text" name="qtyRating43"></td>
-                  <td><input type="text" name="qlRating43"></td>
-                  <td><input type="text" name="plRating43"></td>
-                  <td><input type="text" name="overallRating43"></td>
+                  <td><input type="number" name="qtyRating43"></td>
+                  <td><input type="number" name="qlRating43"></td>
+                  <td><input type="number" name="plRating43"></td>
+                  <td><input type="number" name="overallRating43"></td>
                   <td><input type="text" name="remarks43"></td>
                   </tr>
                 
@@ -1701,17 +1723,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   Comments and Recommendation for Development Purposes
                   </b><br><br><br><br>Rating scale<br>5 - Outstanding<br>4 - Very Satisfactoy<br>3 - Satisfactory<br>2 - Unsatisfactory<br>1 - Poor 
                     </td>
-                    <td style = "padding-right:20px; vertical-align:top; text-align:left;">Numerical Rating:</td>
-                    <td style = "padding-left:40px; padding-right:40px; vertical-align:top; text-align:center;" colspan="2">Adjectival Rating:</td>
+                    <td style = "padding-right:20px; vertical-align:top; text-align:left;">Numerical Rating: <br><br><br><br><input type="number" name="numerical_rating" placeholder="RATING"></td>
+                    <td style = "padding-left:40px; padding-right:40px; vertical-align:top; text-align:center;" colspan="2">Adjectival Rating:<br><br><br><br><input type="number" name="adjectival_rating" placeholder="RATING"></td>
                   </tr>
                   <tr style="height:100px;">
                     <td></td>
                   </tr>
                   <tr>
-                    <td style = "text-align:center;"><b>Discussed with:<br><br><br><b>Name</td>
-                    <td colspan="3" style = "text-align:center;"><b>Assessed by:<br><br><br><b>Name</td>
-                    <td colspan="3" style = "text-align:center;"><b>Checked by:<br><br><br><b>Name</td>
-                    <td colspan="3" style = "text-align:center;"><b>Final Rating:<br><br><br><b>Name</b></td>
+                    <td style = "text-align:center;"><b>Discussed with:<br><br><br><b><input type="text" name="discussed_with" placeholder="NAME"></td>
+                    <td colspan="3" style = "text-align:center;"><b>Assessed by:<br><br><br><b><input type="text" name="assessed_by" placeholder="NAME"></</td>
+                    <td colspan="3" style = "text-align:center;"><b>Checked by:<br><br><br><b><input type="text" name="checked_by" placeholder="NAME"></</td>
+                    <td colspan="3" style = "text-align:center;"><b>Final Rating:<br><br><br><b><input type="text" name="final_rating" placeholder="NAME"></</b></td>
                   </tr>
                   <t>
                     <td style = "text-align:center;"><i>RATEE</td>
@@ -1720,10 +1742,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td colspan="3" style = "text-align:center;"><i>Campus Director</i></td>
                   </t>
                   <tr>
-                    <td>Date:</td>
-                    <td colspan="3">Date:</td>
-                    <td colspan="3">Date:</td>
-                    <td colspan="3">Date:</td>
+                    <td  style="text-align:center">Date: <input type="date" name="date_discussed_with"></</td>
+                    <td colspan="3"  style="text-align:center">Date: <input type="date" name="date_assessed_by"></td>
+                    <td colspan="3"  style="text-align:center">Date: <input type="date" name="date_checked_by"></td>
+                    <td colspan="3"  style="text-align:center">Date: <input type="date" name="date_final_rating"></td>
                   </tr>
 
     </table>
