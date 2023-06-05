@@ -78,8 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = mysqli_fetch_assoc($result);
         $ID = $row['ID'];
 
-        // Use the ID value as needed
-        echo "The ID for faculty_username '$faculty_username' is: $ID";
     } else {
         // No matching row found
         echo "No matching faculty_username found.";

@@ -8,7 +8,6 @@
 </head>
 
 <style>
-
     a {
         text-decoration: none;
     }
@@ -48,6 +47,7 @@
             <th>IPCR</th>
         </tr>
         <?php
+        session_start(); 
         // Assuming you have a database connection and a table named "faculty_credentials" with a column "username"
 
         // Connect to the database
@@ -65,7 +65,6 @@
         }
 
         // Query the database to retrieve the data
-
         $sql = "SELECT firstname, middlename, lastname FROM faculty_credentials";
         $result = $conn->query($sql);
 
@@ -75,19 +74,22 @@
 
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
-            $name = $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"] . "</td>";
+            $firstname = $row["firstname"];
+            $middlename = $row["middlename"];
+            $lastname = $row["lastname"];
+            $name = $firstname . " " . $middlename . " " . $lastname;
             ?>
-                <tr>
-                    <td><a href="ipcr_dean.php"><?php echo $name; ?></a></td>
-                    <td>Pending</td>
-                    <td>Download File</td>
-                </tr>
-                <?php
-            }
+            <tr>
+                <td><a href="ipcr_dean.php?$firstname=<?php echo urlencode($firstname); ?>"><?php echo $name; ?></a></td>
+                <td>Pending</td>
+                <td>Download File</td>
+            </tr>
+            <?php
+          }
         } else {
             echo "<tr><td colspan='1'>No data available</td></tr>";
         }
-
+        $_SESSION['First'] = $firstname;
         // Close the database connection
         $conn->close();
         ?>

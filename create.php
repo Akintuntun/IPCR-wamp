@@ -93,12 +93,18 @@
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert the data into the database
-        $query = "INSERT INTO faculty_credentials (username, password, firstname, middlename, lastname, age, email, contact_number)
-                  VALUES ('$username', '$hashedPassword', '$firstname', '$middlename', '$lastname', '$age', '$email', '$contact_number')";
+        if ($role === "dean") {
+            // Insert into dean_credentials table
+            $query = "INSERT INTO dean_credentials (username, password, firstname, middlename, lastname, age, email, contact_number)
+                      VALUES ('$username', '$hashedPassword', '$firstname', '$middlename', '$lastname', '$age', '$email', '$contact_number')";
+        } else {
+            // Insert into faculty_credentials table
+            $query = "INSERT INTO faculty_credentials (username, password, firstname, middlename, lastname, age, email, contact_number)
+                      VALUES ('$username', '$hashedPassword', '$firstname', '$middlename', '$lastname', '$age', '$email', '$contact_number')";
+        }
 
         if ($connection->query($query) === TRUE) {
-            // Data inserted successfully
-            echo "New user created and added to faculty_credentials table.";
+
         } else {
             // Error occurred while inserting data
             echo "Error: " . $query . "<br>" . $connection->error;

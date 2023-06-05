@@ -42,39 +42,55 @@
 <body>
 
 <?php
+
+session_start();
+$first = $_SESSION['First'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Database connection details
   $servername = "localhost";
   $username = "root";
   $password = "Akisophiekingking";
-  $database = "ipcr_db";
+  $database = "login_credentials";
 
   // Create connection
   $conn = new mysqli($servername, $username, $password, $database);
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+
+    $query = "SELECT ID FROM faculty_credentials WHERE firstname = '$first'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        // Fetch the row and retrieve the ID value
+        $row = mysqli_fetch_assoc($result);
+        $ID = $row['ID'];
+
+    } else {
+        // No matching row found
+        echo $first;
+        echo "No matching faculty_username found.";
+    }
+
   
 
   // Retrieve form data
   $numericalRating = $_POST['numerical_rating'];
   $adjectivalRating = $_POST['adjectival_rating'];
   
+  $query = "UPDATE faculty_credentials
+  SET numerical_rating = '$numericalRating', adjectival_rating = '$adjectivalRating' WHERE ID = $ID";
 
 
-  // Insert data into the ipcr_faculty table
-  $sql = "INSERT INTO ipcr_faculty (numerical_rating, adjectival_rating)
-          VALUES ('$numericalRating', '$adjectivalRating')";
+  if ($conn->query($query) === TRUE) {
 
-
-  if ($conn->query($sql) === TRUE) {
-      
   } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+  echo "Error: " . $query . "<br>" . $conn->error;
   }
 
-  // Retrieve the inserted id from the ipcr_faculty table
 
       // Insert data into the ipcr_answers table
 
@@ -84,17 +100,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $a = $_POST['overallRating1'];
       $remarks = $_POST['remarks1'];
 
-      $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-              VALUES ('$qty', '$qlE', '$t', '$a', '$remarks')";
+      $query = "UPDATE ipcr_answers
+      SET QTY = '$qty', QL_E = '$qlE', T = '$t', A = '$a',
+      Remarks = '$remarks' WHERE ID = '$ID' AND Performance_Indication = 'a) No. of Syllabus prepared instruction'";
 
-      if ($conn->query($sql) === TRUE) {
+
+
+      if ($conn->query($query) === TRUE) {
         
       } else {
-          echo "Error: " . $sql . "<br>" . $conn->error;
+          echo "Error: " . $query . "<br>" . $conn->error;
       }
-  } else {
-      echo "Error: Could not retrieve the inserted id.";
-  }
+ 
 
 
     // Insert data into the ipcr_answers table
@@ -105,13 +122,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a2 = $_POST['overallRating2'];
     $remarks2 = $_POST['remarks2'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty2', '$qlE2', '$t2', '$a2', '$remarks2')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty2', QL_E = '$qlE2', T = '$t2', A = '$a2',
+      Remarks = '$remarks2' WHERE ID = '$ID' AND Performance_Indication = 'b) No. of Course Guide instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -122,13 +140,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a3 = $_POST['overallRating3'];
     $remarks3 = $_POST['remarks3'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty3', '$qlE3', '$t3', '$a3', '$remarks3')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty3', QL_E = '$qlE3', T = '$t3', A = '$a3',
+      Remarks = '$remarks3' WHERE ID = '$ID' AND Performance_Indication = 'c) No. of SLM instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -139,13 +158,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a4 = $_POST['overallRating4'];
     $remarks4 = $_POST['remarks4'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty4', '$qlE4', '$t4', '$a4', '$remarks4')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty4', QL_E = '$qlE4', T = '$t4', A = '$a4',
+      Remarks = '$remarks4' WHERE ID = '$ID' AND Performance_Indication = 'd) No. of subject areas with community immersion/involvement component 3 instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -156,13 +176,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a5 = $_POST['overallRating5'];
     $remarks5 = $_POST['remarks5'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty5', '$qlE5', '$t5', '$a5', '$remarks5')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty5', QL_E = '$qlE5', T = '$t5', A = '$a5',
+      Remarks = '$remarks5' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance Sheet instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -173,13 +194,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a6 = $_POST['overallRating6'];
     $remarks6 = $_POST['remarks6'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty6', '$qlE6', '$t6', '$a6', '$remarks6')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty6', QL_E = '$qlE6', T = '$t6', A = '$a6',
+      Remarks = '$remarks6' WHERE ID = '$ID' AND Performance_Indication = 'b) Class Records instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -190,13 +212,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a7 = $_POST['overallRating7'];
     $remarks7 = $_POST['remarks7'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty7', '$qlE7', '$t7', '$a7', '$remarks7')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty7', QL_E = '$qlE7', T = '$t7', A = '$a7',
+      Remarks = '$remarks7' WHERE ID = '$ID' AND Performance_Indication = 'a) Evaluation of Teaching Effectiveness (CQA-SF-012) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -207,13 +230,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a8 = $_POST['overallRating8'];
     $remarks8 = $_POST['remarks8'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty8', '$qlE8', '$t8', '$a8', '$remarks8')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty8', QL_E = '$qlE8', T = '$t8', A = '$a8',
+      Remarks = '$remarks8' WHERE ID = '$ID' AND Performance_Indication = 'b) Class Observation (CQA-SF-012) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     // Insert data into the ipcr_answers table
@@ -224,13 +248,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a9 = $_POST['overallRating9'];
     $remarks9 = $_POST['remarks9'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty9', '$qlE9', '$t9', '$a9', '$remarks9')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty9', QL_E = '$qlE9', T = '$t9', A = '$a9',
+      Remarks = '$remarks9' WHERE ID = '$ID' AND Performance_Indication = 'a.1) TOS/Rubrics(Mid Term) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     
@@ -240,13 +265,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a10 = $_POST['overallRating10'];
     $remarks10 = $_POST['remarks10'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty10', '$qlE10', '$t10', '$a10', '$remarks10')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty10', QL_E = '$qlE10', T = '$t10', A = '$a10',
+      Remarks = '$remarks10' WHERE ID = '$ID' AND Performance_Indication = 'a.2) TOS/Rubrics(Final Term) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     
@@ -256,13 +282,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a11 = $_POST['overallRating11'];
     $remarks11 = $_POST['remarks11'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-      VALUES ('$qty11', '$qlE11', '$t11', '$a11', '$remarks11')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty11', QL_E = '$qlE11', T = '$t11', A = '$a11',
+      Remarks = '$remarks11' WHERE ID = '$ID' AND Performance_Indication = 'b.1) Test questions(term exams)/Performance\\'s based activities (Mid Term) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     
@@ -272,14 +299,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a12 = $_POST['overallRating12'];
     $remarks12 = $_POST['remarks12'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-        VALUES ('$qty12', '$qlE12', '$t12', '$a12', '$remarks12')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty12', QL_E = '$qlE12', T = '$t12', A = '$a12',
+      Remarks = '$remarks12' WHERE ID = '$ID' AND Performance_Indication = 'b.2) Test questions(term exams)/Performance\\'s based activities (Final Term) instruction'";
 
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty13 = $_POST['qtyRating13'];
@@ -288,13 +316,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a13 = $_POST['overallRating13'];
     $remarks13 = $_POST['remarks13'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty13', '$qlE13', '$t13', '$a13', '$remarks13')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty13', QL_E = '$qlE13', T = '$t13', A = '$a13',
+      Remarks = '$remarks13' WHERE ID = '$ID' AND Performance_Indication = 'c.1) Answer Keys (Mid Term) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     
@@ -304,13 +333,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a14 = $_POST['overallRating14'];
     $remarks14 = $_POST['remarks14'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty14', '$qlE14', '$t14', '$a14', '$remarks14')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty14', QL_E = '$qlE14', T = '$t14', A = '$a14',
+      Remarks = '$remarks14' WHERE ID = '$ID' AND Performance_Indication = 'c.2) Answer Keys (Final Term) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     
@@ -320,13 +350,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a15 = $_POST['overallRating15'];
     $remarks15 = $_POST['remarks15'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty15', '$qlE15', '$t15', '$a15', '$remarks15')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty15', QL_E = '$qlE15', T = '$t15', A = '$a15',
+      Remarks = '$remarks15' WHERE ID = '$ID' AND Performance_Indication = 'a) No. of grading sheets submitted and encoded instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     
@@ -336,13 +367,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a16 = $_POST['overallRating16'];
     $remarks16 = $_POST['remarks16'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty16', '$qlE16', '$t16', '$a16', '$remarks16')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty16', QL_E = '$qlE16', T = '$t16', A = '$a16',
+      Remarks = '$remarks16' WHERE ID = '$ID' AND Performance_Indication = 'a) No. of faculty & students seek advices (LSPU-ACAD-011) instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty17 = $_POST['qtyRating17'];
@@ -351,13 +383,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a17 = $_POST['overallRating17'];
     $remarks17 = $_POST['remarks17'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty17', '$qlE17', '$t17', '$a17', '$remarks17')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty17', QL_E = '$qlE17', T = '$t17', A = '$a17',
+      Remarks = '$remarks17' WHERE ID = '$ID' AND Performance_Indication = 'a) Accomplishment Report instruction'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
 
@@ -367,13 +400,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a18 = $_POST['overallRating18'];
     $remarks18 = $_POST['remarks18'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty18', '$qlE18', '$t18', '$a18', '$remarks18')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty18', QL_E = '$qlE18', T = '$t18', A = '$a18',
+      Remarks = '$remarks18' WHERE ID = '$ID' AND Performance_Indication = 'a) Research proposal submitted/Activity conducted research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
 
@@ -383,13 +417,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a19 = $_POST['overallRating19'];
     $remarks19 = $_POST['remarks19'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty19', '$qlE19', '$t19', '$a19', '$remarks19')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty19', QL_E = '$qlE19', T = '$t19', A = '$a19',
+      Remarks = '$remarks19' WHERE ID = '$ID' AND Performance_Indication = 'b) Research implemented and/or Completed within the timeframe research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty20 = $_POST['qtyRating20'];
@@ -398,13 +433,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a20 = $_POST['overallRating20'];
     $remarks20 = $_POST['remarks20'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty20', '$qlE20', '$t20', '$a20', '$remarks20')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty20', QL_E = '$qlE20', T = '$t20', A = '$a20',
+      Remarks = '$remarks20' WHERE ID = '$ID' AND Performance_Indication = 'c) Research Presenterd in Regional/National/International Comferences research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
 
@@ -414,13 +450,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a21 = $_POST['overallRating21'];
     $remarks21 = $_POST['remarks21'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty21', '$qlE21', '$t21', '$a21', '$remarks21')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty21', QL_E = '$qlE21', T = '$t21', A = '$a21',
+      Remarks = '$remarks21' WHERE ID = '$ID' AND Performance_Indication = 'd) Research Published in Peer-reviewed Journals research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty22 = $_POST['qtyRating22'];
@@ -429,13 +466,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a22 = $_POST['overallRating22'];
     $remarks22 = $_POST['remarks22'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty22', '$qlE22', '$t22', '$a22', '$remarks22')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty22', QL_E = '$qlE22', T = '$t22', A = '$a22',
+      Remarks = '$remarks22' WHERE ID = '$ID' AND Performance_Indication = 'e) Filed/Published/Approved Intellectual Property Right research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty23 = $_POST['qtyRating23'];
@@ -444,13 +482,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a23 = $_POST['overallRating23'];
     $remarks23 = $_POST['remarks23'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty23', '$qlE23', '$t23', '$a23', '$remarks23')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty23', QL_E = '$qlE23', T = '$t23', A = '$a23',
+      Remarks = '$remarks23' WHERE ID = '$ID' AND Performance_Indication = 'f) Research Utilized/Deployed through Commercialization/Extension/Policy research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty24 = $_POST['qtyRating24'];
@@ -459,13 +498,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a24 = $_POST['overallRating24'];
     $remarks24 = $_POST['remarks24'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty24', '$qlE24', '$t24', '$a24', '$remarks24')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty24', QL_E = '$qlE24', T = '$t24', A = '$a24',
+      Remarks = '$remarks24' WHERE ID = '$ID' AND Performance_Indication = 'g) Number of cirtation in journal/books research'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty25 = $_POST['qtyRating25'];
@@ -474,13 +514,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a25 = $_POST['overallRating25'];
     $remarks25 = $_POST['remarks25'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty25', '$qlE25', '$t9', '$a25', '$remarks25')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty25', QL_E = '$qlE25', T = '$t25', A = '$a25',
+      Remarks = '$remarks25' WHERE ID = '$ID' AND Performance_Indication = 'a) Extension proposal submiitted/activity conducted extension'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty26 = $_POST['qtyRating26'];
@@ -489,13 +530,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a26 = $_POST['overallRating26'];
     $remarks26 = $_POST['remarks26'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty26', '$qlE26', '$t26', '$a26', '$remarks26')";
-
-    if ($conn->query($sql) === TRUE) {
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty26', QL_E = '$qlE26', T = '$t26', A = '$a26',
+      Remarks = '$remarks26' WHERE ID = '$ID' AND Performance_Indication = 'b) EPersons trained/provided with technical advise extension'";
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty27 = $_POST['qtyRating27'];
@@ -504,13 +545,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a27 = $_POST['overallRating27'];
     $remarks27 = $_POST['remarks27'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty27', '$qlE27', '$t27', '$a27', '$remarks27')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty27', QL_E = '$qlE27', T = '$t27', A = '$a27',
+      Remarks = '$remarks27' WHERE ID = '$ID' AND Performance_Indication = 'c) Persons who avail the service who rated the service as good or better extension'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty28 = $_POST['qtyRating28'];
@@ -519,13 +561,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a28 = $_POST['overallRating28'];
     $remarks28 = $_POST['remarks28'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty28', '$qlE28', '$t28', '$a28', '$remarks28')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty28', QL_E = '$qlE28', T = '$t28', A = '$a28',
+      Remarks = '$remarks28' WHERE ID = '$ID' AND Performance_Indication = 'd) Persons given training or advisory who rated the timeliness of service delivery as good or better extension'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty29 = $_POST['qtyRating29'];
@@ -534,13 +577,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a29 = $_POST['overallRating29'];
     $remarks29 = $_POST['remarks29'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty29', '$qlE29', '$t29', '$a29', '$remarks29')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty29', QL_E = '$qlE29', T = '$t29', A = '$a29',
+      Remarks = '$remarks29' WHERE ID = '$ID' AND Performance_Indication = 'e) Technical advice responded within 3 days upon request extension'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty30 = $_POST['qtyRating30'];
@@ -549,13 +593,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a30 = $_POST['overallRating30'];
     $remarks30 = $_POST['remarks30'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty30', '$qlE30', '$t30', '$a30', '$remarks30')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty30', QL_E = '$qlE30', T = '$t30', A = '$a30',
+      Remarks = '$remarks30' WHERE ID = '$ID' AND Performance_Indication = 'a) Accomplishment Report support'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty31 = $_POST['qtyRating31'];
@@ -564,13 +609,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a31 = $_POST['overallRating31'];
     $remarks31 = $_POST['remarks31'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty31', '$qlE31', '$t31', '$a31', '$remarks31')";
+    $query = "UPDATE ipcr_answers
+          SET QTY = '$qty31', QL_E = '$qlE31', T = '$t31', A = '$a31',
+          Remarks = '$remarks31'
+          WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance raising support'";
 
-    if ($conn->query($sql) === TRUE) {
+
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty32 = $_POST['qtyRating32'];
@@ -579,13 +627,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a32 = $_POST['overallRating32'];
     $remarks32 = $_POST['remarks32'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty32', '$qlE32', '$t32', '$a32', '$remarks32')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty32', QL_E = '$qlE32', T = '$t32', A = '$a32',
+      Remarks = '$remarks32' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance lowering support'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty33 = $_POST['qtyRating33'];
@@ -594,13 +643,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a33 = $_POST['overallRating33'];
     $remarks33 = $_POST['remarks33'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty33', '$qlE33', '$t33', '$a33', '$remarks33')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty33', QL_E = '$qlE33', T = '$t33', A = '$a33',
+      Remarks = '$remarks33' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance sheet/Program of activities/other document as proof wellness'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty34 = $_POST['qtyRating34'];
@@ -609,13 +659,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a34 = $_POST['overallRating34'];
     $remarks34 = $_POST['remarks34'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty34', '$qlE34', '$t34', '$a34', '$remarks34')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty34', QL_E = '$qlE34', T = '$t34', A = '$a34',
+      Remarks = '$remarks34' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance sheet/Program of activities/other document as proof allied'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty35 = $_POST['qtyRating35'];
@@ -624,13 +675,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a35 = $_POST['overallRating35'];
     $remarks35 = $_POST['remarks35'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty35', '$qlE35', '$t35', '$a35', '$remarks35')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty35', QL_E = '$qlE35', T = '$t35', A = '$a35',
+      Remarks = '$remarks35' WHERE ID = '$ID' AND Performance_Indication = 'a) Training/Seminar/Conference certificate of attendance/participation support'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty36 = $_POST['qtyRating36'];
@@ -639,13 +691,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a36 = $_POST['overallRating36'];
     $remarks36 = $_POST['remarks36'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty36', '$qlE36', '$t36', '$a36', '$remarks36')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty36', QL_E = '$qlE36', T = '$t36', A = '$a36',
+      Remarks = '$remarks36' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance meeting'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty37 = $_POST['qtyRating37'];
@@ -654,13 +707,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a37 = $_POST['overallRating37'];
     $remarks37 = $_POST['remarks37'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty37', '$qlE37', '$t37', '$a37', '$remarks37')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty37', QL_E = '$qlE37', T = '$t37', A = '$a37',
+      Remarks = '$remarks37' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance related'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty38 = $_POST['qtyRating38'];
@@ -669,13 +723,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a38 = $_POST['overallRating38'];
     $remarks38 = $_POST['remarks38'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty38', '$qlE38', '$t38', '$a38', '$remarks38')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty38', QL_E = '$qlE38', T = '$t38', A = '$a38',
+      Remarks = '$remarks38' WHERE ID = '$ID' AND Performance_Indication = 'a) Attendance sheet/Program of activities/other document as proof spiritual'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty39 = $_POST['qtyRating39'];
@@ -684,13 +739,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a39 = $_POST['overallRating39'];
     $remarks39 = $_POST['remarks39'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty39', '$qlE39', '$t39', '$a39', '$remarks39')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty39', QL_E = '$qlE39', T = '$t39', A = '$a39',
+      Remarks = '$remarks39' WHERE ID = '$ID' AND Performance_Indication = 'a) Prepare.... administrative'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty40 = $_POST['qtyRating40'];
@@ -699,13 +755,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a40 = $_POST['overallRating40'];
     $remarks40 = $_POST['remarks40'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty40', '$qlE40', '$t40', '$a40', '$remarks40')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty40', QL_E = '$qlE40', T = '$t40', A = '$a40',
+      Remarks = '$remarks40' WHERE ID = '$ID' AND Performance_Indication = 'b) Submit.... administrative'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty41 = $_POST['qtyRating41'];
@@ -714,13 +771,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a41 = $_POST['overallRating41'];
     $remarks41 = $_POST['remarks41'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty41', '$qlE41', '$t41', '$a41', '$remarks41')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty41', QL_E = '$qlE41', T = '$t41', A = '$a41',
+      Remarks = '$remarks41' WHERE ID = '$ID' AND Performance_Indication = 'c) Increase.... administrative'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty42 = $_POST['qtyRating42'];
@@ -729,13 +787,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a42 = $_POST['overallRating42'];
     $remarks42 = $_POST['remarks42'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty42', '$qlE42', '$t42', '$a42', '$remarks42')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty42', QL_E = '$qlE42', T = '$t42', A = '$a42',
+      Remarks = '$remarks42' WHERE ID = '$ID' AND Performance_Indication = 'd) .... administrative'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
     $qty43 = $_POST['qtyRating43'];
@@ -744,13 +803,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a43 = $_POST['overallRating43'];
     $remarks43 = $_POST['remarks43'];
 
-    $sql = "INSERT INTO ipcr_answers (QTY, QL_E, T, A, Remarks)
-            VALUES ('$qty43', '$qlE43', '$t43', '$a43', '$remarks43')";
+    $query = "UPDATE ipcr_answers
+      SET QTY = '$qty43', QL_E = '$qlE43', T = '$t43', A = '$a43',
+      Remarks = '$remarks43' WHERE ID = '$ID' AND Performance_Indication = 'e) .... administrative'";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($query) === TRUE) {
       
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 
 
@@ -773,9 +833,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </p>
     <table style="width:100%;">
         <tr>
-            <th id="name">Conforme:<br><br></th>
-            <th colspan="4" id="assoc_dean">Reviewed By:<br><br></th>
-            <th colspan="5" id="director">Approved By:<br><br></th>
+            <th id="name">Conforme:<br><br><input type="text" name="conforme"  requiredclass="top" ></th>
+            <th colspan="4" id="assoc_dean">Reviewed By:<br><br><input type="text" name="reviewed_by" required class="top"></th>
+            <th colspan="5" id="director">Approved By:<br><br><input type="text" name="approved_by"  required class="top"></th>
         </tr>
         <tr>
             <td style="text-align:center;">RATEE</td>
