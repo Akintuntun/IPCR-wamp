@@ -42,19 +42,49 @@
 <body>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Database connection details
-  $servername = "localhost";
-  $username = "root";
-  $password = "Akisophiekingking";
-  $database = "ipcr_db";
 
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $database);
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Database connection details
+    $servername = "localhost";
+    $username = "root";
+    $password = "Akisophiekingking";
+    $database = "login_credentials";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $database);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Check if the session variable is set
+    if (!isset($_SESSION['faculty_username'])) {
+        // Redirect to the login page if the session variable is not set
+        header("Location: login-page.php");
+        exit();
+    }
+
+    // Retrieve the username from the session variable
+    $faculty_username = $_SESSION['faculty_username'];
+
+    // Retrieve the ID where faculty_username matches
+    $query = "SELECT ID FROM faculty_credentials WHERE username = '$faculty_username'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        // Fetch the row and retrieve the ID value
+        $row = mysqli_fetch_assoc($result);
+        $ID = $row['ID'];
+
+        // Use the ID value as needed
+        echo "The ID for faculty_username '$faculty_username' is: $ID";
+    } else {
+        // No matching row found
+        echo "No matching faculty_username found.";
+    }
+
 
   // Retrieve form data
   $name = $_POST['name'];
@@ -64,8 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $conforme = $_POST['conforme'];
   $reviewedBy = $_POST['reviewed_by'];
   $approvedBy = $_POST['approved_by'];
-  $numericalRating = $_POST['numerical_rating'];
-  $adjectivalRating = $_POST['adjectival_rating'];
   $discussedWith = $_POST['discussed_with'];
   $dateDiscussedWith = $_POST['date_discussed_with'];
   $assessedBy = $_POST['assessed_by'];
@@ -75,65 +103,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $finalRating = $_POST['final_rating'];
   $dateFinalRating = $_POST['date_final_rating'];
 
+  $query = "UPDATE faculty_credentials 
+              SET name = '$name', academic_rank = '$academicRank', semester = '$semester', year = '$year', conforme = '$conforme', reviewed_by = '$reviewedBy', approved_by = '$approvedBy', 
+              discussed_with = '$discussedWith', date_discussed_with = '$dateDiscussedWith', assessed_by = '$assessedBy', date_assessed_by = '$dateAssessedBy',
+               checked_by = '$checkedBy', date_checked_by = '$dateCheckedBy', final_rating = '$finalRating', date_final_rating = '$dateFinalRating' WHERE ID = $ID";
 
-  // Insert data into the ipcr_faculty table
-  $sql = "INSERT INTO ipcr_faculty (name, academic_rank, semester, year, conforme, reviewed_by, approved_by, numerical_rating, adjectival_rating, discussed_with, date_discussed_with, assessed_by, date_assessed_by, checked_by, date_checked_by, final_rating, date_final_rating)
-          VALUES ('$name', '$academicRank', '$semester', '$year', '$conforme', '$reviewedBy', '$approvedBy', '$numericalRating', '$adjectivalRating', '$discussedWith', '$dateDiscussedWith', '$assessedBy',
-           '$dateAssessedBy', '$checkedBy', '$dateCheckedBy', '$finalRating', '$dateFinalRating')";
 
 
-  if ($conn->query($sql) === TRUE) {
-      
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
+if ($conn->query($query) === TRUE) {
+        
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
 
-  // Retrieve the inserted id from the ipcr_faculty table
-  $idQuery = "SELECT id FROM ipcr_faculty WHERE name = '$name'";
-  $result = $conn->query($idQuery);
-  if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-      $ID = $row['id'];
 
       // Insert data into the ipcr_answers table
       $target = $_POST['target1'];
       $accomplished = $_POST['accomplished1'];
       $dateOfSubmissionCompletion = $_POST['submissionDate1'];
       $dateSubmittedCompleted = $_POST['completionDate1'];
-      $qty = $_POST['qtyRating1'];
-      $qlE = $_POST['qlRating1'];
-      $t = $_POST['plRating1'];
-      $a = $_POST['overallRating1'];
-      $remarks = $_POST['remarks1'];
 
-      $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-              VALUES ('$ID', 'a) No. of Syllabus prepared', '$target', '$accomplished', '$dateOfSubmissionCompletion', '$dateSubmittedCompleted',
-              '$qty', '$qlE', '$t', '$a', '$remarks')";
+      $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+              VALUES ('$ID', 'a) No. of Syllabus prepared instruction', '$target', '$accomplished', '$dateOfSubmissionCompletion', '$dateSubmittedCompleted')";
 
       if ($conn->query($sql) === TRUE) {
         
       } else {
           echo "Error: " . $sql . "<br>" . $conn->error;
       }
-  } else {
-      echo "Error: Could not retrieve the inserted id.";
-  }
-
+  
 
     // Insert data into the ipcr_answers table
     $target2 = $_POST['target2'];
     $accomplished2 = $_POST['accomplished2'];
     $dateOfSubmissionCompletion2 = $_POST['submissionDate2'];
     $dateSubmittedCompleted2 = $_POST['completionDate2'];
-    $qty2 = $_POST['qtyRating2'];
-    $qlE2 = $_POST['qlRating2'];
-    $t2 = $_POST['plRating2'];
-    $a2 = $_POST['overallRating2'];
-    $remarks2 = $_POST['remarks2'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b) No. of Course Guide', '$target2', '$accomplished2', '$dateOfSubmissionCompletion2', '$dateSubmittedCompleted2',
-            '$qty2', '$qlE2', '$t2', '$a2', '$remarks2')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'b) No. of Course Guide instruction', '$target2', '$accomplished2', '$dateOfSubmissionCompletion2', '$dateSubmittedCompleted2')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -146,15 +153,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished3 = $_POST['accomplished3'];
     $dateOfSubmissionCompletion3 = $_POST['submissionDate3'];
     $dateSubmittedCompleted3 = $_POST['completionDate3'];
-    $qty3 = $_POST['qtyRating3'];
-    $qlE3 = $_POST['qlRating3'];
-    $t3 = $_POST['plRating3'];
-    $a3 = $_POST['overallRating3'];
-    $remarks3 = $_POST['remarks3'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'c) No. of SLM', '$target3', '$accomplished3', '$dateOfSubmissionCompletion3', '$dateSubmittedCompleted3',
-            '$qty3', '$qlE3', '$t3', '$a3', '$remarks3')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'c) No. of SLM instruction', '$target3', '$accomplished3', '$dateOfSubmissionCompletion3', '$dateSubmittedCompleted3')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -167,15 +168,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished4 = $_POST['accomplished4'];
     $dateOfSubmissionCompletion4 = $_POST['submissionDate4'];
     $dateSubmittedCompleted4 = $_POST['completionDate4'];
-    $qty4 = $_POST['qtyRating4'];
-    $qlE4 = $_POST['qlRating4'];
-    $t4 = $_POST['plRating4'];
-    $a4 = $_POST['overallRating4'];
-    $remarks4 = $_POST['remarks4'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'd) No. of subject areas with community immersion/involvement component 3', '$target4', '$accomplished4', '$dateOfSubmissionCompletion4', '$dateSubmittedCompleted4',
-            '$qty4', '$qlE4', '$t4', '$a4', '$remarks4')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'd) No. of subject areas with community immersion/involvement component 3 instruction', '$target4', '$accomplished4', '$dateOfSubmissionCompletion4', '$dateSubmittedCompleted4')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -188,15 +183,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished5 = $_POST['accomplished5'];
     $dateOfSubmissionCompletion5 = $_POST['submissionDate5'];
     $dateSubmittedCompleted5 = $_POST['completionDate5'];
-    $qty5 = $_POST['qtyRating5'];
-    $qlE5 = $_POST['qlRating5'];
-    $t5 = $_POST['plRating5'];
-    $a5 = $_POST['overallRating5'];
-    $remarks5 = $_POST['remarks5'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance Sheet', '$target5', '$accomplished5', '$dateOfSubmissionCompletion5', '$dateSubmittedCompleted5',
-            '$qty5', '$qlE5', '$t5', '$a5', '$remarks5')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance Sheet instruction', '$target5', '$accomplished5', '$dateOfSubmissionCompletion5', '$dateSubmittedCompleted5')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -209,15 +198,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished6 = $_POST['accomplished6'];
     $dateOfSubmissionCompletion6 = $_POST['submissionDate6'];
     $dateSubmittedCompleted6 = $_POST['completionDate6'];
-    $qty6 = $_POST['qtyRating6'];
-    $qlE6 = $_POST['qlRating6'];
-    $t6 = $_POST['plRating6'];
-    $a6 = $_POST['overallRating6'];
-    $remarks6 = $_POST['remarks6'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b) Class Records', '$target6', '$accomplished6', '$dateOfSubmissionCompletion6', '$dateSubmittedCompleted6',
-            '$qty6', '$qlE6', '$t6', '$a6', '$remarks6')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'b) Class Records instruction', '$target6', '$accomplished6', '$dateOfSubmissionCompletion6', '$dateSubmittedCompleted6')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -230,15 +213,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished7 = $_POST['accomplished7'];
     $dateOfSubmissionCompletion7 = $_POST['submissionDate7'];
     $dateSubmittedCompleted7 = $_POST['completionDate7'];
-    $qty7 = $_POST['qtyRating7'];
-    $qlE7 = $_POST['qlRating7'];
-    $t7 = $_POST['plRating7'];
-    $a7 = $_POST['overallRating7'];
-    $remarks7 = $_POST['remarks7'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Evaluation of Teaching Effectiveness (CQA-SF-012)', '$target7', '$accomplished7', '$dateOfSubmissionCompletion7', '$dateSubmittedCompleted7',
-            '$qty7', '$qlE7', '$t7', '$a7', '$remarks7')";
+  
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Evaluation of Teaching Effectiveness (CQA-SF-012) instruction', '$target7', '$accomplished7', '$dateOfSubmissionCompletion7', '$dateSubmittedCompleted7')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -251,15 +228,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished8 = $_POST['accomplished8'];
     $dateOfSubmissionCompletion8 = $_POST['submissionDate8'];
     $dateSubmittedCompleted8 = $_POST['completionDate8'];
-    $qty8 = $_POST['qtyRating8'];
-    $qlE8 = $_POST['qlRating8'];
-    $t8 = $_POST['plRating8'];
-    $a8 = $_POST['overallRating8'];
-    $remarks8 = $_POST['remarks8'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b) Class Observation (CQA-SF-012)', '$target8', '$accomplished8', '$dateOfSubmissionCompletion8', '$dateSubmittedCompleted8',
-            '$qty8', '$qlE8', '$t8', '$a8', '$remarks8')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'b) Class Observation (CQA-SF-012) instruction', '$target8', '$accomplished8', '$dateOfSubmissionCompletion8', '$dateSubmittedCompleted8')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -272,15 +243,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished9 = $_POST['accomplished9'];
     $dateOfSubmissionCompletion9 = $_POST['submissionDate9'];
     $dateSubmittedCompleted9 = $_POST['completionDate9'];
-    $qty9 = $_POST['qtyRating9'];
-    $qlE9 = $_POST['qlRating9'];
-    $t9 = $_POST['plRating9'];
-    $a9 = $_POST['overallRating9'];
-    $remarks9 = $_POST['remarks9'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a.1) TOS/Rubrics(Mid Term)', '$target9', '$accomplished9', '$dateOfSubmissionCompletion9', '$dateSubmittedCompleted9',
-            '$qty9', '$qlE9', '$t9', '$a9', '$remarks9')";
+    
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a.1) TOS/Rubrics(Mid Term) instruction', '$target9', '$accomplished9', '$dateOfSubmissionCompletion9', '$dateSubmittedCompleted9')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -292,15 +257,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished10 = $_POST['accomplished10'];
     $dateOfSubmissionCompletion10 = $_POST['submissionDate10'];
     $dateSubmittedCompleted10 = $_POST['completionDate10'];
-    $qty10 = $_POST['qtyRating10'];
-    $qlE10 = $_POST['qlRating10'];
-    $t10 = $_POST['plRating10'];
-    $a10 = $_POST['overallRating10'];
-    $remarks10 = $_POST['remarks10'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a.2) TOS/Rubrics(Final Term)', '$target10', '$accomplished10', '$dateOfSubmissionCompletion10', '$dateSubmittedCompleted10',
-            '$qty10', '$qlE10', '$t10', '$a10', '$remarks10')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a.2) TOS/Rubrics(Final Term) instruction', '$target10', '$accomplished10', '$dateOfSubmissionCompletion10', '$dateSubmittedCompleted10')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -312,15 +271,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished11 = $_POST['accomplished11'];
     $dateOfSubmissionCompletion11 = $_POST['submissionDate11'];
     $dateSubmittedCompleted11 = $_POST['completionDate11'];
-    $qty11 = $_POST['qtyRating11'];
-    $qlE11 = $_POST['qlRating11'];
-    $t11 = $_POST['plRating11'];
-    $a11 = $_POST['overallRating11'];
-    $remarks11 = $_POST['remarks11'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-      VALUES ('$ID', 'b.1) Test questions(term exams)/Performance\\'s based activities (Mid Term)', '$target11', '$accomplished11', '$dateOfSubmissionCompletion11', '$dateSubmittedCompleted11',
-      '$qty11', '$qlE11', '$t11', '$a11', '$remarks11')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+      VALUES ('$ID', 'b.1) Test questions(term exams)/Performance\\'s based activities (Mid Term) instruction', '$target11', '$accomplished11', '$dateOfSubmissionCompletion11', '$dateSubmittedCompleted11')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -332,15 +285,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished12 = $_POST['accomplished12'];
     $dateOfSubmissionCompletion12 = $_POST['submissionDate12'];
     $dateSubmittedCompleted12 = $_POST['completionDate12'];
-    $qty12 = $_POST['qtyRating12'];
-    $qlE12 = $_POST['qlRating12'];
-    $t12 = $_POST['plRating12'];
-    $a12 = $_POST['overallRating12'];
-    $remarks12 = $_POST['remarks12'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-        VALUES ('$ID', 'b.2) Test questions(term exams)/Performance\\'s based activities (Final Term)', '$target12', '$accomplished12', '$dateOfSubmissionCompletion12', '$dateSubmittedCompleted12',
-        '$qty12', '$qlE12', '$t12', '$a12', '$remarks12')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+        VALUES ('$ID', 'b.2) Test questions(term exams)/Performance\\'s based activities (Final Term) instruction', '$target12', '$accomplished12', '$dateOfSubmissionCompletion12', '$dateSubmittedCompleted12')";
 
 
     if ($conn->query($sql) === TRUE) {
@@ -353,15 +300,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished13 = $_POST['accomplished13'];
     $dateOfSubmissionCompletion13 = $_POST['submissionDate13'];
     $dateSubmittedCompleted13 = $_POST['completionDate13'];
-    $qty13 = $_POST['qtyRating13'];
-    $qlE13 = $_POST['qlRating13'];
-    $t13 = $_POST['plRating13'];
-    $a13 = $_POST['overallRating13'];
-    $remarks13 = $_POST['remarks13'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'c.1) Answer Keys (Mid Term)', '$target13', '$accomplished13', '$dateOfSubmissionCompletion13', '$dateSubmittedCompleted13',
-            '$qty13', '$qlE13', '$t13', '$a13', '$remarks13')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'c.1) Answer Keys (Mid Term) instruction', '$target13', '$accomplished13', '$dateOfSubmissionCompletion13', '$dateSubmittedCompleted13')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -373,15 +314,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished14 = $_POST['accomplished14'];
     $dateOfSubmissionCompletion14 = $_POST['submissionDate14'];
     $dateSubmittedCompleted14 = $_POST['completionDate14'];
-    $qty14 = $_POST['qtyRating14'];
-    $qlE14 = $_POST['qlRating14'];
-    $t14 = $_POST['plRating14'];
-    $a14 = $_POST['overallRating14'];
-    $remarks14 = $_POST['remarks14'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'c.2) Answer Keys (Final Term)', '$target14', '$accomplished14', '$dateOfSubmissionCompletion14', '$dateSubmittedCompleted14',
-            '$qty14', '$qlE14', '$t14', '$a14', '$remarks14')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'c.2) Answer Keys (Final Term) instruction', '$target14', '$accomplished14', '$dateOfSubmissionCompletion14', '$dateSubmittedCompleted14')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -393,15 +328,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished15 = $_POST['accomplished15'];
     $dateOfSubmissionCompletion15 = $_POST['submissionDate15'];
     $dateSubmittedCompleted15 = $_POST['completionDate15'];
-    $qty15 = $_POST['qtyRating15'];
-    $qlE15 = $_POST['qlRating15'];
-    $t15 = $_POST['plRating15'];
-    $a15 = $_POST['overallRating15'];
-    $remarks15 = $_POST['remarks15'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) No. of grading sheets submitted and encoded', '$target15', '$accomplished15', '$dateOfSubmissionCompletion15', '$dateSubmittedCompleted15',
-            '$qty15', '$qlE15', '$t15', '$a15', '$remarks15')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) No. of grading sheets submitted and encoded instruction', '$target15', '$accomplished15', '$dateOfSubmissionCompletion15', '$dateSubmittedCompleted15')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -413,15 +342,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished16 = $_POST['accomplished16'];
     $dateOfSubmissionCompletion16 = $_POST['submissionDate16'];
     $dateSubmittedCompleted16 = $_POST['completionDate16'];
-    $qty16 = $_POST['qtyRating16'];
-    $qlE16 = $_POST['qlRating16'];
-    $t16 = $_POST['plRating16'];
-    $a16 = $_POST['overallRating16'];
-    $remarks16 = $_POST['remarks16'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) No. of faculty & students seek advices (LSPU-ACAD-011)', '$target16', '$accomplished16', '$dateOfSubmissionCompletion16', '$dateSubmittedCompleted16',
-            '$qty16', '$qlE16', '$t16', '$a16', '$remarks16')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) No. of faculty & students seek advices (LSPU-ACAD-011) instruction', '$target16', '$accomplished16', '$dateOfSubmissionCompletion16', '$dateSubmittedCompleted16')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -433,15 +356,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished17 = $_POST['accomplished17'];
     $dateOfSubmissionCompletion17 = $_POST['submissionDate17'];
     $dateSubmittedCompleted17 = $_POST['completionDate17'];
-    $qty17 = $_POST['qtyRating17'];
-    $qlE17 = $_POST['qlRating17'];
-    $t17 = $_POST['plRating17'];
-    $a17 = $_POST['overallRating17'];
-    $remarks17 = $_POST['remarks17'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Accomplishment Report', '$target17', '$accomplished17', '$dateOfSubmissionCompletion17', '$dateSubmittedCompleted17',
-            '$qty17', '$qlE17', '$t17', '$a17', '$remarks17')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Accomplishment Report instruction', '$target17', '$accomplished17', '$dateOfSubmissionCompletion17', '$dateSubmittedCompleted17')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -453,15 +370,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished18 = $_POST['accomplished18'];
     $dateOfSubmissionCompletion18 = $_POST['submissionDate18'];
     $dateSubmittedCompleted18 = $_POST['completionDate18'];
-    $qty18 = $_POST['qtyRating18'];
-    $qlE18 = $_POST['qlRating18'];
-    $t18 = $_POST['plRating18'];
-    $a18 = $_POST['overallRating18'];
-    $remarks18 = $_POST['remarks18'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Research proposal submitted/Activity conducted', '$target18', '$accomplished18', '$dateOfSubmissionCompletion18', '$dateSubmittedCompleted18',
-            '$qty18', '$qlE18', '$t18', '$a18', '$remarks18')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Research proposal submitted/Activity conducted research', '$target18', '$accomplished18', '$dateOfSubmissionCompletion18', '$dateSubmittedCompleted18')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -473,15 +384,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished19 = $_POST['accomplished19'];
     $dateOfSubmissionCompletion19 = $_POST['submissionDate19'];
     $dateSubmittedCompleted19 = $_POST['completionDate19'];
-    $qty19 = $_POST['qtyRating19'];
-    $qlE19 = $_POST['qlRating19'];
-    $t19 = $_POST['plRating19'];
-    $a19 = $_POST['overallRating19'];
-    $remarks19 = $_POST['remarks19'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b) Research implemented and/or Completed within the timeframe', '$target19', '$accomplished19', '$dateOfSubmissionCompletion19', '$dateSubmittedCompleted19',
-            '$qty19', '$qlE19', '$t19', '$a19', '$remarks19')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'b) Research implemented and/or Completed within the timeframe research', '$target19', '$accomplished19', '$dateOfSubmissionCompletion19', '$dateSubmittedCompleted19')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -493,15 +398,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished20 = $_POST['accomplished20'];
     $dateOfSubmissionCompletion20 = $_POST['submissionDate20'];
     $dateSubmittedCompleted20 = $_POST['completionDate20'];
-    $qty20 = $_POST['qtyRating20'];
-    $qlE20 = $_POST['qlRating20'];
-    $t20 = $_POST['plRating20'];
-    $a20 = $_POST['overallRating20'];
-    $remarks20 = $_POST['remarks20'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'c) Research Presenterd in Regional/National/International Comferences', '$target9', '$accomplished20', '$dateOfSubmissionCompletion20', '$dateSubmittedCompleted20',
-            '$qty20', '$qlE20', '$t20', '$a20', '$remarks20')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'c) Research Presenterd in Regional/National/International Comferences research', '$target9', '$accomplished20', '$dateOfSubmissionCompletion20', '$dateSubmittedCompleted20')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -514,15 +413,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished21 = $_POST['accomplished21'];
     $dateOfSubmissionCompletion21 = $_POST['submissionDate21'];
     $dateSubmittedCompleted21 = $_POST['completionDate21'];
-    $qty21 = $_POST['qtyRating21'];
-    $qlE21 = $_POST['qlRating21'];
-    $t21 = $_POST['plRating21'];
-    $a21 = $_POST['overallRating21'];
-    $remarks21 = $_POST['remarks21'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'd) Research Published in Peer-reviewed Journals', '$target21', '$accomplished21', '$dateOfSubmissionCompletion21', '$dateSubmittedCompleted21',
-            '$qty21', '$qlE21', '$t21', '$a21', '$remarks21')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'd) Research Published in Peer-reviewed Journals research', '$target21', '$accomplished21', '$dateOfSubmissionCompletion21', '$dateSubmittedCompleted21')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -534,15 +427,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished22 = $_POST['accomplished22'];
     $dateOfSubmissionCompletion22 = $_POST['submissionDate22'];
     $dateSubmittedCompleted22 = $_POST['completionDate22'];
-    $qty22 = $_POST['qtyRating22'];
-    $qlE22 = $_POST['qlRating22'];
-    $t22 = $_POST['plRating22'];
-    $a22 = $_POST['overallRating22'];
-    $remarks22 = $_POST['remarks22'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'e) Filed/Published/Approved Intellectual Property Right', '$target22', '$accomplished22', '$dateOfSubmissionCompletion22', '$dateSubmittedCompleted22',
-            '$qty22', '$qlE22', '$t22', '$a22', '$remarks22')";
+  
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'e) Filed/Published/Approved Intellectual Property Right research', '$target22', '$accomplished22', '$dateOfSubmissionCompletion22', '$dateSubmittedCompleted22')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -554,16 +441,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished23 = $_POST['accomplished23'];
     $dateOfSubmissionCompletion23 = $_POST['submissionDate23'];
     $dateSubmittedCompleted23 = $_POST['completionDate23'];
-    $qty23 = $_POST['qtyRating23'];
-    $qlE23 = $_POST['qlRating23'];
-    $t23 = $_POST['plRating23'];
-    $a23 = $_POST['overallRating23'];
-    $remarks23 = $_POST['remarks23'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'f) Research Utilized/Deployed through Commercialization/Extension/Policy	
-', '$target23', '$accomplished23', '$dateOfSubmissionCompletion23', '$dateSubmittedCompleted23',
-            '$qty23', '$qlE23', '$t23', '$a23', '$remarks23')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'f) Research Utilized/Deployed through Commercialization/Extension/Policy research', '$target23', '$accomplished23', '$dateOfSubmissionCompletion23', '$dateSubmittedCompleted23')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -575,15 +455,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished24 = $_POST['accomplished24'];
     $dateOfSubmissionCompletion24 = $_POST['submissionDate24'];
     $dateSubmittedCompleted24 = $_POST['completionDate24'];
-    $qty24 = $_POST['qtyRating24'];
-    $qlE24 = $_POST['qlRating24'];
-    $t24 = $_POST['plRating24'];
-    $a24 = $_POST['overallRating24'];
-    $remarks24 = $_POST['remarks24'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'g) Number of cirtation in journal/books', '$target24', '$accomplished24', '$dateOfSubmissionCompletion24', '$dateSubmittedCompleted24',
-            '$qty24', '$qlE24', '$t24', '$a24', '$remarks24')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'g) Number of cirtation in journal/books research', '$target24', '$accomplished24', '$dateOfSubmissionCompletion24', '$dateSubmittedCompleted24')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -595,15 +469,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished25 = $_POST['accomplished25'];
     $dateOfSubmissionCompletion25 = $_POST['submissionDate25'];
     $dateSubmittedCompleted25 = $_POST['completionDate25'];
-    $qty25 = $_POST['qtyRating25'];
-    $qlE25 = $_POST['qlRating25'];
-    $t25 = $_POST['plRating25'];
-    $a25 = $_POST['overallRating25'];
-    $remarks25 = $_POST['remarks25'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Extension proposal submiitted/activity conducted', '$target25', '$accomplished25', '$dateOfSubmissionCompletion25', '$dateSubmittedCompleted25',
-            '$qty25', '$qlE25', '$t9', '$a25', '$remarks25')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Extension proposal submiitted/activity conducted extension', '$target25', '$accomplished25', '$dateOfSubmissionCompletion25', '$dateSubmittedCompleted25')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -615,15 +483,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished26 = $_POST['accomplished26'];
     $dateOfSubmissionCompletion26 = $_POST['submissionDate26'];
     $dateSubmittedCompleted26 = $_POST['completionDate26'];
-    $qty26 = $_POST['qtyRating26'];
-    $qlE26 = $_POST['qlRating26'];
-    $t26 = $_POST['plRating26'];
-    $a26 = $_POST['overallRating26'];
-    $remarks26 = $_POST['remarks26'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b) EPersons trained/provided with technical advise', '$target26', '$accomplished26', '$dateOfSubmissionCompletion26', '$dateSubmittedCompleted26',
-            '$qty26', '$qlE26', '$t26', '$a26', '$remarks26')";
+  
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'b) EPersons trained/provided with technical advise extension', '$target26', '$accomplished26', '$dateOfSubmissionCompletion26', '$dateSubmittedCompleted26')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -635,15 +497,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished27 = $_POST['accomplished27'];
     $dateOfSubmissionCompletion27 = $_POST['submissionDate27'];
     $dateSubmittedCompleted27 = $_POST['completionDate27'];
-    $qty27 = $_POST['qtyRating27'];
-    $qlE27 = $_POST['qlRating27'];
-    $t27 = $_POST['plRating27'];
-    $a27 = $_POST['overallRating27'];
-    $remarks27 = $_POST['remarks27'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'c) Persons who avail the service who rated the service as good or better', '$target27', '$accomplished27', '$dateOfSubmissionCompletion27', '$dateSubmittedCompleted27',
-            '$qty27', '$qlE27', '$t27', '$a27', '$remarks27')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'c) Persons who avail the service who rated the service as good or better extension', '$target27', '$accomplished27', '$dateOfSubmissionCompletion27', '$dateSubmittedCompleted27')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -655,15 +511,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished28 = $_POST['accomplished28'];
     $dateOfSubmissionCompletion28 = $_POST['submissionDate28'];
     $dateSubmittedCompleted28 = $_POST['completionDate28'];
-    $qty28 = $_POST['qtyRating28'];
-    $qlE28 = $_POST['qlRating28'];
-    $t28 = $_POST['plRating28'];
-    $a28 = $_POST['overallRating28'];
-    $remarks28 = $_POST['remarks28'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'd) Persons given training or advisory who rated the timeliness of service delivery as good or better', '$target28', '$accomplished28', '$dateOfSubmissionCompletion28', '$dateSubmittedCompleted28',
-            '$qty28', '$qlE28', '$t28', '$a28', '$remarks28')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'd) Persons given training or advisory who rated the timeliness of service delivery as good or better extension', '$target28', '$accomplished28', '$dateOfSubmissionCompletion28', '$dateSubmittedCompleted28')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -675,15 +525,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished29 = $_POST['accomplished29'];
     $dateOfSubmissionCompletion29 = $_POST['submissionDate29'];
     $dateSubmittedCompleted29 = $_POST['completionDate29'];
-    $qty29 = $_POST['qtyRating29'];
-    $qlE29 = $_POST['qlRating29'];
-    $t29 = $_POST['plRating29'];
-    $a29 = $_POST['overallRating29'];
-    $remarks29 = $_POST['remarks29'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'e) Technical advice responded within 3 days upon request', '$target29', '$accomplished29', '$dateOfSubmissionCompletion29', '$dateSubmittedCompleted29',
-            '$qty29', '$qlE29', '$t29', '$a29', '$remarks29')";
+  
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'e) Technical advice responded within 3 days upon request extension', '$target29', '$accomplished29', '$dateOfSubmissionCompletion29', '$dateSubmittedCompleted29')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -695,15 +539,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished30 = $_POST['accomplished30'];
     $dateOfSubmissionCompletion30 = $_POST['submissionDate30'];
     $dateSubmittedCompleted30 = $_POST['completionDate30'];
-    $qty30 = $_POST['qtyRating30'];
-    $qlE30 = $_POST['qlRating30'];
-    $t30 = $_POST['plRating30'];
-    $a30 = $_POST['overallRating30'];
-    $remarks30 = $_POST['remarks30'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Accomplishment Report', '$target30', '$accomplished30', '$dateOfSubmissionCompletion30', '$dateSubmittedCompleted30',
-            '$qty30', '$qlE30', '$t30', '$a30', '$remarks30')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Accomplishment Report support', '$target30', '$accomplished30', '$dateOfSubmissionCompletion30', '$dateSubmittedCompleted30')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -715,15 +553,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished31 = $_POST['accomplished31'];
     $dateOfSubmissionCompletion31 = $_POST['submissionDate31'];
     $dateSubmittedCompleted31 = $_POST['completionDate31'];
-    $qty31 = $_POST['qtyRating31'];
-    $qlE31 = $_POST['qlRating31'];
-    $t31 = $_POST['plRating31'];
-    $a31 = $_POST['overallRating31'];
-    $remarks31 = $_POST['remarks31'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance', '$target31', '$accomplished31', '$dateOfSubmissionCompletion31', '$dateSubmittedCompleted31',
-            '$qty31', '$qlE31', '$t31', '$a31', '$remarks31')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance raising support', '$target31', '$accomplished31', '$dateOfSubmissionCompletion31', '$dateSubmittedCompleted31')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -735,15 +567,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished32 = $_POST['accomplished32'];
     $dateOfSubmissionCompletion32 = $_POST['submissionDate32'];
     $dateSubmittedCompleted32 = $_POST['completionDate32'];
-    $qty32 = $_POST['qtyRating32'];
-    $qlE32 = $_POST['qlRating32'];
-    $t32 = $_POST['plRating32'];
-    $a32 = $_POST['overallRating32'];
-    $remarks32 = $_POST['remarks32'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance', '$target32', '$accomplished32', '$dateOfSubmissionCompletion32', '$dateSubmittedCompleted32',
-            '$qty32', '$qlE32', '$t32', '$a32', '$remarks32')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance lowering support', '$target32', '$accomplished32', '$dateOfSubmissionCompletion32', '$dateSubmittedCompleted32')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -755,15 +581,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished33 = $_POST['accomplished33'];
     $dateOfSubmissionCompletion33 = $_POST['submissionDate33'];
     $dateSubmittedCompleted33 = $_POST['completionDate33'];
-    $qty33 = $_POST['qtyRating33'];
-    $qlE33 = $_POST['qlRating33'];
-    $t33 = $_POST['plRating33'];
-    $a33 = $_POST['overallRating33'];
-    $remarks33 = $_POST['remarks33'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance sheet/Program of activities/other document as proof', '$target9', '$accomplished33', '$dateOfSubmissionCompletion33', '$dateSubmittedCompleted33',
-            '$qty33', '$qlE33', '$t33', '$a33', '$remarks33')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance sheet/Program of activities/other document as proof wellness', '$target9', '$accomplished33', '$dateOfSubmissionCompletion33', '$dateSubmittedCompleted33')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -775,15 +595,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished34 = $_POST['accomplished34'];
     $dateOfSubmissionCompletion34 = $_POST['submissionDate34'];
     $dateSubmittedCompleted34 = $_POST['completionDate34'];
-    $qty34 = $_POST['qtyRating34'];
-    $qlE34 = $_POST['qlRating34'];
-    $t34 = $_POST['plRating34'];
-    $a34 = $_POST['overallRating34'];
-    $remarks34 = $_POST['remarks34'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance sheet/Program of activities/other document as proof', '$target34', '$accomplished34', '$dateOfSubmissionCompletion34', '$dateSubmittedCompleted34',
-            '$qty34', '$qlE34', '$t34', '$a34', '$remarks34')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance sheet/Program of activities/other document as proof allied', '$target34', '$accomplished34', '$dateOfSubmissionCompletion34', '$dateSubmittedCompleted34')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -795,15 +609,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished35 = $_POST['accomplished35'];
     $dateOfSubmissionCompletion35 = $_POST['submissionDate35'];
     $dateSubmittedCompleted35 = $_POST['completionDate35'];
-    $qty35 = $_POST['qtyRating35'];
-    $qlE35 = $_POST['qlRating35'];
-    $t35 = $_POST['plRating35'];
-    $a35 = $_POST['overallRating35'];
-    $remarks35 = $_POST['remarks35'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Training/Seminar/Conference certificate of attendance/participation', '$target35', '$accomplished35', '$dateOfSubmissionCompletion35', '$dateSubmittedCompleted35',
-            '$qty35', '$qlE35', '$t35', '$a35', '$remarks35')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Training/Seminar/Conference certificate of attendance/participation support', '$target35', '$accomplished35', '$dateOfSubmissionCompletion35', '$dateSubmittedCompleted35')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -815,15 +623,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished36 = $_POST['accomplished9'];
     $dateOfSubmissionCompletion36 = $_POST['submissionDate36'];
     $dateSubmittedCompleted36 = $_POST['completionDate36'];
-    $qty36 = $_POST['qtyRating36'];
-    $qlE36 = $_POST['qlRating36'];
-    $t36 = $_POST['plRating36'];
-    $a36 = $_POST['overallRating36'];
-    $remarks36 = $_POST['remarks36'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance', '$target36', '$accomplished36', '$dateOfSubmissionCompletion36', '$dateSubmittedCompleted36',
-            '$qty36', '$qlE36', '$t36', '$a36', '$remarks36')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance meeting', '$target36', '$accomplished36', '$dateOfSubmissionCompletion36', '$dateSubmittedCompleted36')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -835,15 +637,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished37 = $_POST['accomplished37'];
     $dateOfSubmissionCompletion37 = $_POST['submissionDate37'];
     $dateSubmittedCompleted37 = $_POST['completionDate37'];
-    $qty37 = $_POST['qtyRating37'];
-    $qlE37 = $_POST['qlRating37'];
-    $t37 = $_POST['plRating37'];
-    $a37 = $_POST['overallRating37'];
-    $remarks37 = $_POST['remarks37'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance', '$target37', '$accomplished37', '$dateOfSubmissionCompletion37', '$dateSubmittedCompleted37',
-            '$qty37', '$qlE37', '$t37', '$a37', '$remarks37')";
+    
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance related', '$target37', '$accomplished37', '$dateOfSubmissionCompletion37', '$dateSubmittedCompleted37')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -855,15 +651,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished38 = $_POST['accomplished9'];
     $dateOfSubmissionCompletion38 = $_POST['submissionDate38'];
     $dateSubmittedCompleted38 = $_POST['completionDate38'];
-    $qty38 = $_POST['qtyRating38'];
-    $qlE38 = $_POST['qlRating38'];
-    $t38 = $_POST['plRating38'];
-    $a38 = $_POST['overallRating38'];
-    $remarks38 = $_POST['remarks38'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Attendance sheet/Program of activities/other document as proof', '$target38', '$accomplished38', '$dateOfSubmissionCompletion38', '$dateSubmittedCompleted38',
-            '$qty38', '$qlE38', '$t38', '$a38', '$remarks38')";
+    
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Attendance sheet/Program of activities/other document as proof spiritual', '$target38', '$accomplished38', '$dateOfSubmissionCompletion38', '$dateSubmittedCompleted38')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -875,15 +665,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished39 = $_POST['accomplished39'];
     $dateOfSubmissionCompletion39 = $_POST['submissionDate39'];
     $dateSubmittedCompleted39 = $_POST['completionDate39'];
-    $qty39 = $_POST['qtyRating39'];
-    $qlE39 = $_POST['qlRating39'];
-    $t39 = $_POST['plRating39'];
-    $a39 = $_POST['overallRating39'];
-    $remarks39 = $_POST['remarks39'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'a) Prepare....', '$target39', '$accomplished39', '$dateOfSubmissionCompletion39', '$dateSubmittedCompleted39',
-            '$qty39', '$qlE39', '$t39', '$a39', '$remarks39')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'a) Prepare.... administrative', '$target39', '$accomplished39', '$dateOfSubmissionCompletion39', '$dateSubmittedCompleted39')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -895,15 +679,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished40 = $_POST['accomplished40'];
     $dateOfSubmissionCompletion40 = $_POST['submissionDate40'];
     $dateSubmittedCompleted40 = $_POST['completionDate40'];
-    $qty40 = $_POST['qtyRating40'];
-    $qlE40 = $_POST['qlRating40'];
-    $t40 = $_POST['plRating40'];
-    $a40 = $_POST['overallRating40'];
-    $remarks40 = $_POST['remarks40'];
-
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'b) Submit....', '$target40', '$accomplished40', '$dateOfSubmissionCompletion40', '$dateSubmittedCompleted40',
-            '$qty40', '$qlE40', '$t40', '$a40', '$remarks40')";
+    
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'b) Submit.... administrative', '$target40', '$accomplished40', '$dateOfSubmissionCompletion40', '$dateSubmittedCompleted40')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -915,15 +693,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished41 = $_POST['accomplished41'];
     $dateOfSubmissionCompletion41 = $_POST['submissionDate41'];
     $dateSubmittedCompleted41 = $_POST['completionDate41'];
-    $qty41 = $_POST['qtyRating41'];
-    $qlE41 = $_POST['qlRating41'];
-    $t41 = $_POST['plRating41'];
-    $a41 = $_POST['overallRating41'];
-    $remarks41 = $_POST['remarks41'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'c) Increase....', '$target41', '$accomplished41', '$dateOfSubmissionCompletion41', '$dateSubmittedCompleted41',
-            '$qty41', '$qlE41', '$t41', '$a41', '$remarks41')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'c) Increase.... administrative', '$target41', '$accomplished41', '$dateOfSubmissionCompletion41', '$dateSubmittedCompleted41')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -935,15 +707,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished42 = $_POST['accomplished42'];
     $dateOfSubmissionCompletion42 = $_POST['submissionDate42'];
     $dateSubmittedCompleted42 = $_POST['completionDate42'];
-    $qty42 = $_POST['qtyRating42'];
-    $qlE42 = $_POST['qlRating42'];
-    $t42 = $_POST['plRating42'];
-    $a42 = $_POST['overallRating42'];
-    $remarks42 = $_POST['remarks42'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'd) ....', '$target42', '$accomplished42', '$dateOfSubmissionCompletion42', '$dateSubmittedCompleted42',
-            '$qty42', '$qlE42', '$t42', '$a42', '$remarks42')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'd) .... administrative', '$target42', '$accomplished42', '$dateOfSubmissionCompletion42', '$dateSubmittedCompleted42')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -955,15 +721,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accomplished43 = $_POST['accomplished43'];
     $dateOfSubmissionCompletion43 = $_POST['submissionDate43'];
     $dateSubmittedCompleted43 = $_POST['completionDate43'];
-    $qty43 = $_POST['qtyRating43'];
-    $qlE43 = $_POST['qlRating43'];
-    $t43 = $_POST['plRating43'];
-    $a43 = $_POST['overallRating43'];
-    $remarks43 = $_POST['remarks43'];
 
-    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed, QTY, QL_E, T, A, Remarks)
-            VALUES ('$ID', 'e) ....', '$target43', '$accomplished43', '$dateOfSubmissionCompletion43', '$dateSubmittedCompleted43',
-            '$qty43', '$qlE43', '$t43', '$a43', '$remarks43')";
+    $sql = "INSERT INTO ipcr_answers (id, Performance_Indication, Target, Accomplished, Date_of_Submission_Completion, Date_Submitted_Completed)
+            VALUES ('$ID', 'e) .... administrative', '$target43', '$accomplished43', '$dateOfSubmissionCompletion43', '$dateSubmittedCompleted43')";
 
     if ($conn->query($sql) === TRUE) {
       
@@ -1031,11 +791,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished1" required></td>
             <td><input type="date" name="submissionDate1" required></td>
             <td><input type="date" name="completionDate1" required></td>
-            <td><input type="number" name="qtyRating1" required></td>
-            <td><input type="number" name="qlRating1" required></td>
-            <td><input type="number" name="plRating1" required></td>
-            <td><input type="number" name="overallRating1" required></td>
-            <td><input type="text" name="remarks1" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1045,11 +805,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished2" required></td>
             <td><input type="date" name="submissionDate2" required></td>
             <td><input type="date" name="completionDate2" required></td>
-            <td><input type="number" name="qtyRating2" required></td>
-            <td><input type="number" name="qlRating2" required></td>
-            <td><input type="number" name="plRating2" required></td>
-            <td><input type="number" name="overallRating2" required></td>
-            <td><input type="text" name="remarks2" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1059,11 +819,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished3" required></td>
             <td><input type="date" name="submissionDate3" required></td>
             <td><input type="date" name="completionDate3" required></td>
-            <td><input type="number" name="qtyRating3" required></td>
-            <td><input type="number" name="qlRating3" required></td>
-            <td><input type="number" name="plRating3" required></td>
-            <td><input type="number" name="overallRating3" required></td>
-            <td><input type="text" name="remarks3" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1073,11 +833,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished4" required></td>
             <td><input type="date" name="submissionDate4" required></td>
             <td><input type="date" name="completionDate4" required></td>
-            <td><input type="number" name="qtyRating4" required></td>
-            <td><input type="number" name="qlRating4" required></td>
-            <td><input type="number" name="plRating4" required></td>
-            <td><input type="number" name="overallRating4" required></td>
-            <td><input type="text" name="remarks4" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1091,11 +851,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished5" required></td>
             <td><input type="date" name="submissionDate5" required></td>
             <td><input type="date" name="completionDate5" required></td>
-            <td><input type="number" name="qtyRating5" required></td>
-            <td><input type="number" name="qlRating5" required></td>
-            <td><input type="number" name="plRating5" required></td>
-            <td><input type="number" name="overallRating5" required></td>
-            <td><input type="text" name="remarks5" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1105,11 +865,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished6" required></td>
             <td><input type="date" name="submissionDate6" required></td>
             <td><input type="date" name="completionDate6" required></td>
-            <td><input type="number" name="qtyRating6" required></td>
-            <td><input type="number" name="qlRating6" required></td>
-            <td><input type="number" name="plRating6" required></td>
-            <td><input type="number" name="overallRating6" required></td>
-            <td><input type="text" name="remarks6" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1123,11 +883,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished7" required></td>
             <td><input type="date" name="submissionDate7" required></td>
             <td><input type="date" name="completionDate7" required></td>
-            <td><input type="number" name="qtyRating7" required></td>
-            <td><input type="number" name="qlRating7" required></td>
-            <td><input type="number" name="plRating7" required></td>
-            <td><input type="number" name="overallRating7" required></td>
-            <td><input type="text" name="remarks7" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>  
           <td>
@@ -1137,11 +897,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished8" required></td>
             <td><input type="date" name="submissionDate8" required></td>
             <td><input type="date" name="completionDate8" required></td>
-            <td><input type="number" name="qtyRating8" required></td>
-            <td><input type="number" name="qlRating8" required></td>
-            <td><input type="number" name="plRating8" required></td>
-            <td><input type="number" name="overallRating8" required></td>
-            <td><input type="text" name="remarks8" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1155,11 +915,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished9" required></td>
             <td><input type="date" name="submissionDate9" required></td>
             <td><input type="date" name="completionDate9" required></td>
-            <td><input type="number" name="qtyRating9" required></td>
-            <td><input type="number" name="qlRating9" required></td>
-            <td><input type="number" name="plRating9" required></td>
-            <td><input type="number" name="overallRating9" required></td>
-            <td><input type="text" name="remarks9" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1169,11 +929,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished10" required></td>
             <td><input type="date" name="submissionDate10" required></td>
             <td><input type="date" name="completionDate10" required></td>
-            <td><input type="number" name="qtyRating10" required></td>
-            <td><input type="number" name="qlRating10" required></td>
-            <td><input type="number" name="plRating10" required></td>
-            <td><input type="number" name="overallRating10" required></td>
-            <td><input type="text" name="remarks10" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1183,11 +943,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished11" required></td>
             <td><input type="date" name="submissionDate11" required></td>
             <td><input type="date" name="completionDate11" required></td>
-            <td><input type="number" name="qtyRating11" required></td>
-            <td><input type="number" name="qlRating11" required></td>
-            <td><input type="number" name="plRating11" required></td>
-            <td><input type="number" name="overallRating11" required></td>
-            <td><input type="text" name="remarks11" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1197,11 +957,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished12" required></td>
             <td><input type="date" name="submissionDate12" required></td>
             <td><input type="date" name="completionDate12" required></td>
-            <td><input type="number" name="qtyRating12" required></td>
-            <td><input type="number" name="qlRating12" required></td>
-            <td><input type="number" name="plRating12" required></td>
-            <td><input type="number" name="overallRating12" required></td>
-            <td><input type="text" name="remarks12" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1211,11 +971,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished13" required></td>
             <td><input type="date" name="submissionDate13" required></td>
             <td><input type="date" name="completionDate13" required></td>
-            <td><input type="number" name="qtyRating13" required></td>
-            <td><input type="number" name="qlRating13" required></td>
-            <td><input type="number" name="plRating13" required></td>
-            <td><input type="number" name="overallRating13" required></td>
-            <td><input type="text" name="remarks13" required required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1225,11 +985,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished14" required></td>
             <td><input type="date" name="submissionDate14" required></td>
             <td><input type="date" name="completionDate14" required></td>
-            <td><input type="number" name="qtyRating14" required></td>
-            <td><input type="number" name="qlRating14" required></td>
-            <td><input type="number" name="plRating14" required></td>
-            <td><input type="number" name="overallRating14" required></td>
-            <td><input type="text" name="remarks14" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1243,11 +1003,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished15" required></td>
             <td><input type="date" name="submissionDate15" required></td>
             <td><input type="date" name="completionDate15" required></td>
-            <td><input type="number" name="qtyRating15" required></td>
-            <td><input type="number" name="qlRating15" required></td>
-            <td><input type="number" name="plRating15" required></td>
-            <td><input type="number" name="overallRating15" required></td>
-            <td><input type="text" name="remarks15" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1261,11 +1021,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished16" required></td>
             <td><input type="date" name="submissionDate16" required></td>
             <td><input type="date" name="completionDate16" required></td>
-            <td><input type="number" name="qtyRating16" required></td>
-            <td><input type="number" name="qlRating16" required></td>
-            <td><input type="number" name="plRating16" required></td>
-            <td><input type="number" name="overallRating16" required></td>
-            <td><input type="text" name="remarks16" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1279,11 +1039,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished17" required></td>
             <td><input type="date" name="submissionDate17" required></td>
             <td><input type="date" name="completionDate17" required></td>
-            <td><input type="number" name="qtyRating17" required></td>
-            <td><input type="number" name="qlRating17" required></td>
-            <td><input type="number" name="plRating17" required></td>
-            <td><input type="number" name="overallRating17" required></td>
-            <td><input type="text" name="remarks17" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr style="text-align:left; background-color: #f0ed61;">
           <td colspan="10">RESEARCH</td>
@@ -1300,11 +1060,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished18" required></td>
             <td><input type="date" name="submissionDate18" required></td>
             <td><input type="date" name="completionDate18" required></td>
-            <td><input type="number" name="qtyRating18" required></td>
-            <td><input type="number" name="qlRating18" required></td>
-            <td><input type="number" name="plRating18" required></td>
-            <td><input type="number" name="overallRating18" required></td>
-            <td><input type="text" name="remarks18" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td>
@@ -1314,11 +1074,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished19" required></td>
             <td><input type="date" name="submissionDate19" required></td>
             <td><input type="date" name="completionDate19" required></td>
-            <td><input type="number" name="qtyRating19" required></td>
-            <td><input type="number" name="qlRating19" required></td>
-            <td><input type="number" name="plRating19" required></td>
-            <td><input type="number" name="overallRating19" required></td>
-            <td><input type="text" name="remarks19" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <td>
           c) Research Presenterd in Regional/National/International Comferences
@@ -1327,11 +1087,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished20" required></td>
             <td><input type="date" name="submissionDate20" required></td>
             <td><input type="date" name="completionDate20" required></td>
-            <td><input type="number" name="qtyRating20" required></td>
-            <td><input type="number" name="qlRating20" required></td>
-            <td><input type="number" name="plRating20" required></td>
-            <td><input type="number" name="overallRating20" required></td>
-            <td><input type="text" name="remarks20" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
       </tr>
       <td>
       d) Research Published in Peer-reviewed Journals
@@ -1340,11 +1100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished21" required></td>
             <td><input type="date" name="submissionDate21" required></td>
             <td><input type="date" name="completionDate21" required></td>
-            <td><input type="number" name="qtyRating21" required></td>
-            <td><input type="number" name="qlRating21" required></td>
-            <td><input type="number" name="plRating21" required></td>
-            <td><input type="number" name="overallRating21" required></td>
-            <td><input type="text" name="remarks21" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
   </tr>
   <td>
     e) Filed/Published/Approved Intellectual Property Right
@@ -1353,11 +1113,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished22" required></td>
             <td><input type="date" name="submissionDate22" required></td>
             <td><input type="date" name="completionDate22" required></td>
-            <td><input type="number" name="qtyRating22" required></td>
-            <td><input type="number" name="qlRating22" required></td>
-            <td><input type="number" name="plRating22" required></td>
-            <td><input type="number" name="overallRating22" required></td>
-            <td><input type="text" name="remarks22" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <td>
   f) Research Utilized/Deployed through Commercialization/Extension/Policy
@@ -1366,11 +1126,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished23" required></td>
             <td><input type="date" name="submissionDate23" required></td>
             <td><input type="date" name="completionDate23" required></td>
-            <td><input type="number" name="qtyRating23" required></td>
-            <td><input type="number" name="qlRating23" required></td>
-            <td><input type="number" name="plRating23" required></td>
-            <td><input type="number" name="overallRating23" required></td>
-            <td><input type="text" name="remarks23" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <td>
   g) Number of cirtation in journal/books
@@ -1379,11 +1139,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished24" required></td>
             <td><input type="date" name="submissionDate24" required></td>
             <td><input type="date" name="completionDate24" required></td>
-            <td><input type="number" name="qtyRating24" required></td>
-            <td><input type="number" name="qlRating24" required></td>
-            <td><input type="number" name="plRating24" required></td>
-            <td><input type="number" name="overallRating24" required></td>
-            <td><input type="text" name="remarks24" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 
 <tr style="text-align:left; background-color: #f0ed61;">
@@ -1401,11 +1161,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished25" required></td>
             <td><input type="date" name="submissionDate25" required></td>
             <td><input type="date" name="completionDate25" required></td>
-            <td><input type="number" name="qtyRating25" required></td>
-            <td><input type="number" name="qlRating25" required></td>
-            <td><input type="number" name="plRating25" required></td>
-            <td><input type="number" name="overallRating25" required></td>
-            <td><input type="text" name="remarks25" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <td>
   b) EPersons trained/provided with technical advise
@@ -1414,11 +1174,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished26" required></td>
             <td><input type="date" name="submissionDate26" required></td>
             <td><input type="date" name="completionDate26" required></td>
-            <td><input type="number" name="qtyRating26" required></td>
-            <td><input type="number" name="qlRating26" required></td>
-            <td><input type="number" name="plRating26" required></td>
-            <td><input type="number" name="overallRating26" required></td>
-            <td><input type="text" name="remarks26" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <td>
   c) Persons who avail the service who rated the service as good or better
@@ -1427,11 +1187,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished27" required></td>
             <td><input type="date" name="submissionDate27" required></td>
             <td><input type="date" name="completionDate27" required></td>
-            <td><input type="number" name="qtyRating27" required></td>
-            <td><input type="number" name="qlRating27" required></td>
-            <td><input type="number" name="plRating27" required></td>
-            <td><input type="number" name="overallRating27" required></td>
-            <td><input type="text" name="remarks27" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <td>
   d) Persons given training or advisory who rated the timeliness of service delivery as good or better
@@ -1440,11 +1200,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished28" required></td>
             <td><input type="date" name="submissionDate28" required></td>
             <td><input type="date" name="completionDate28" required></td>
-            <td><input type="number" name="qtyRating28" required></td>
-            <td><input type="number" name="qlRating28" required></td>
-            <td><input type="number" name="plRating28" required></td>
-            <td><input type="number" name="overallRating28" required></td>
-            <td><input type="text" name="remarks28" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <td>
   e) Technical advice responded within 3 days upon request
@@ -1453,11 +1213,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished29" required></td>
             <td><input type="date" name="submissionDate29" required></td>
             <td><input type="date" name="completionDate29" required></td>
-            <td><input type="number" name="qtyRating29" required></td>
-            <td><input type="number" name="qlRating29" required></td>
-            <td><input type="number" name="plRating29" required></td>
-            <td><input type="number" name="overallRating29" required></td>
-            <td><input type="text" name="remarks29" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 </tr>
 <tr style="text-align:left; background-color: #f0ed61;">
   <td colspan="10">SUPPORT FUNCTION</td>
@@ -1475,11 +1235,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished30" required></td>
             <td><input type="date" name="submissionDate30" required></td>
             <td><input type="date" name="completionDate30" required></td>
-            <td><input type="number" name="qtyRating30" required></td>
-            <td><input type="number" name="qlRating30" required></td>
-            <td><input type="number" name="plRating30" required></td>
-            <td><input type="number" name="overallRating30" required></td>
-            <td><input type="text" name="remarks30" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
   </tr>
   <tr>
     <td colspan="10"><b>
@@ -1494,11 +1254,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished31" required></td>
             <td><input type="date" name="submissionDate31" required></td>
             <td><input type="date" name="completionDate31" required></td>
-            <td><input type="number" name="qtyRating31" required></td>
-            <td><input type="number" name="qlRating31" required></td>
-            <td><input type="number" name="plRating31" required></td>
-            <td><input type="number" name="overallRating31" required></td>
-            <td><input type="text" name="remarks31" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
     </tr>
     <tr>
       <td colspan="10"><b>
@@ -1513,11 +1273,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished32" required></td>
             <td><input type="date" name="submissionDate32" required></td>
             <td><input type="date" name="completionDate32" required></td>
-            <td><input type="number" name="qtyRating32" required></td>
-            <td><input type="number" name="qlRating32" required></td>
-            <td><input type="number" name="plRating32" required></td>
-            <td><input type="number" name="overallRating32" required></td>
-            <td><input type="text" name="remarks32" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
       </tr>
       <tr>
         <td colspan="10"><b>
@@ -1532,11 +1292,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished33" required></td>
             <td><input type="date" name="submissionDate33" required></td>
             <td><input type="date" name="completionDate33" required></td>
-            <td><input type="number" name="qtyRating33" required></td>
-            <td><input type="number" name="qlRating33" required></td>
-            <td><input type="number" name="plRating33" required></td>
-            <td><input type="number" name="overallRating33" required></td>
-            <td><input type="text" name="remarks33" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
           <td colspan="10"><b>
@@ -1551,11 +1311,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished34" required></td>
             <td><input type="date" name="submissionDate34" required></td>
             <td><input type="date" name="completionDate34" required></td>
-            <td><input type="number" name="qtyRating34" required></td>
-            <td><input type="number" name="qlRating34" required></td>
-            <td><input type="number" name="plRating34" required></td>
-            <td><input type="number" name="overallRating34" required></td>
-            <td><input type="text" name="remarks34" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td colspan="10"><b>
@@ -1570,11 +1330,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished35" required></td>
             <td><input type="date" name="submissionDate35" required></td>
             <td><input type="date" name="completionDate35" required></td>
-            <td><input type="number" name="qtyRating35" required></td>
-            <td><input type="number" name="qlRating35" required></td>
-            <td><input type="number" name="plRating35" required></td>
-            <td><input type="number" name="overallRating35" required></td>
-            <td><input type="text" name="remarks35" required required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td colspan="10"><b>
@@ -1589,11 +1349,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished36" required></td>
             <td><input type="date" name="submissionDate36" required></td>
             <td><input type="date" name="completionDate36" required></td>
-            <td><input type="number" name="qtyRating36" required></td>
-            <td><input type="number" name="qlRating36" required></td>
-            <td><input type="number" name="plRating36" required></td>
-            <td><input type="number" name="overallRating36" required></td>
-            <td><input type="text" name="remarks36" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td colspan="10"><b>
@@ -1608,11 +1368,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished37" required></td>
             <td><input type="date" name="submissionDate37" required></td>
             <td><input type="date" name="completionDate37" required></td>
-            <td><input type="number" name="qtyRating37" required></td>
-            <td><input type="number" name="qlRating37" required></td>
-            <td><input type="number" name="plRating37" required></td>
-            <td><input type="number" name="overallRating37" required></td>
-            <td><input type="text" name="remarks37" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td colspan="10"><b>
@@ -1627,11 +1387,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished38" required></td>
             <td><input type="date" name="submissionDate38" required></td>
             <td><input type="date" name="completionDate38" required></td>
-            <td><input type="number" name="qtyRating38" required></td>
-            <td><input type="number" name="qlRating38" required></td>
-            <td><input type="number" name="plRating38" required></td>
-            <td><input type="number" name="overallRating38" required></td>
-            <td><input type="text" name="remarks38" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr style="text-align:left; background-color: #f0ed61;">
             <td colspan="10">ADMINISTRATIVE FUNCTIONS</td>
@@ -1649,11 +1409,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><input type="number" name="accomplished39" required></td>
             <td><input type="date" name="submissionDate39" required></td>
             <td><input type="date" name="completionDate39" required></td>
-            <td><input type="number" name="qtyRating39" required></td>
-            <td><input type="number" name="qlRating39" required></td>
-            <td><input type="number" name="plRating39" required></td>
-            <td><input type="number" name="overallRating39" required></td>
-            <td><input type="text" name="remarks39" required></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td>
@@ -1663,11 +1423,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td><input type="number" name="accomplished40" required></td>
               <td><input type="date" name="submissionDate40" required></td>
               <td><input type="date" name="completionDate40" required></td>
-              <td><input type="number" name="qtyRating40" required></td>
-              <td><input type="number" name="qlRating40" required></td>
-              <td><input type="number" name="plRating40" required></td>
-              <td><input type="number" name="overallRating40" required></td>
-              <td><input type="text" name="remarks40" required></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <td>
@@ -1677,11 +1437,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td><input type="number" name="accomplished41" required></td>
               <td><input type="date" name="submissionDate41" required></td>
               <td><input type="date" name="completionDate41" required></td>
-              <td><input type="number" name="qtyRating41" required></td>
-              <td><input type="number" name="qlRating41" required></td>
-              <td><input type="number" name="plRating41" required></td>
-              <td><input type="number" name="overallRating41" required></td>
-              <td><input type="text" name="remarks41" required></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               </tr>
               <tr>
                 <td>
@@ -1691,11 +1451,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <td><input type="number" name="accomplished42" required></td>
                 <td><input type="date" name="submissionDate42" required></td>
                 <td><input type="date" name="completionDate42" required></td>
-                <td><input type="number" name="qtyRating42" required></td>
-                <td><input type="number" name="qlRating42" required></td>
-                <td><input type="number" name="plRating42" required></td>
-                <td><input type="number" name="overallRating42" required></td>
-                <td><input type="text" name="remarks42" required></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 </tr>
                 <tr>
                   <td>
@@ -1705,11 +1465,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <td><input type="number" name="accomplished43" required></td>
                   <td><input type="date" name="submissionDate43" required></td>
                   <td><input type="date" name="completionDate43" required></td>
-                  <td><input type="number" name="qtyRating43" required></td>
-                  <td><input type="number" name="qlRating43" required></td>
-                  <td><input type="number" name="plRating43" required></td>
-                  <td><input type="number" name="overallRating43" required></td>
-                  <td><input type="text" name="remarks43" required></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   </tr>
                 
                   <tr>
@@ -1717,8 +1477,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   Comments and Recommendation for Development Purposes
                   </b><br><br><br><br>Rating scale<br>5 - Outstanding<br>4 - Very Satisfactoy<br>3 - Satisfactory<br>2 - Unsatisfactory<br>1 - Poor 
                     </td>
-                    <td style = "padding-right:20px; vertical-align:top; text-align:left;">Numerical Rating: <br><br><br><br><input type="number" name="numerical_rating" placeholder="RATING"  required></td>
-                    <td style = "padding-left:40px; padding-right:40px; vertical-align:top; text-align:center;" colspan="2">Adjectival Rating:<br><br><br><br><input type="number" name="adjectival_rating" placeholder="RATING"  required></td>
+                    <td style = "padding-right:20px; vertical-align:top; text-align:left;">Numerical Rating: <br><br><br><br></td>
+                    <td style = "padding-left:40px; padding-right:40px; vertical-align:top; text-align:center;" colspan="2">Adjectival Rating:<br><br><br><br></td>
                   </tr>
                   <tr style="height:100px;">
                     <td></td>

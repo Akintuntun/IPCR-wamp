@@ -596,9 +596,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </table>
 
         <br>
-        <h1>Additional Comments:</h1>            
-        <textarea id="comments" rows="8" cols="89"></textarea>
-        <br><br>
         <input type="submit" id="sub" value="Submit"></button>
            
         

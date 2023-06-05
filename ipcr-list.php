@@ -8,6 +8,10 @@
 </head>
 
 <style>
+
+    a {
+        text-decoration: none;
+    }
     h1 {
         text-align: center;
         padding: 150px;
@@ -61,18 +65,22 @@
         }
 
         // Query the database to retrieve the data
-        $sql = "SELECT username FROM faculty_credentials";
+
+        $sql = "SELECT firstname, middlename, lastname FROM faculty_credentials";
         $result = $conn->query($sql);
 
-        // Loop through the result and generate table rows
+        if ($result === false) {
+          die("Query execution failed: " . $conn->error);
+        }
+
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $name = $row["username"];
-                ?>
+          while ($row = $result->fetch_assoc()) {
+            $name = $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"] . "</td>";
+            ?>
                 <tr>
-                    <td><?php echo $name; ?></td>
+                    <td><a href="ipcr_dean.php"><?php echo $name; ?></a></td>
                     <td>Pending</td>
-                    <td>Donwload File</td>
+                    <td>Download File</td>
                 </tr>
                 <?php
             }
@@ -86,4 +94,3 @@
     </table>
 </body>
 </html>
-

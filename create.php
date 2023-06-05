@@ -60,6 +60,56 @@
             margin-left: 10px;
         }
     </style>
+<?php
+    // Database connection setup
+    $servername = "localhost";
+    $username = "root";
+    $password = "Akisophiekingking";
+    $database = "login_credentials";
+
+    // Establish a connection
+    $connection = mysqli_connect($servername, $username, $password, $database);
+
+    if (!$connection) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    
+    // Check if the form is submitted
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Retrieve the form inputs
+        $firstname = $_POST["firstname"];
+        $middlename = $_POST["middlename"];
+        $lastname = $_POST["lastname"];
+        $age = $_POST["age"];
+        $contact_number = $_POST["contact_number"];
+        $email = $_POST["email"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $role = $_POST["role"];
+
+        // Perform necessary validation on the inputs
+
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insert the data into the database
+        $query = "INSERT INTO faculty_credentials (username, password, firstname, middlename, lastname, age, email, contact_number)
+                  VALUES ('$username', '$hashedPassword', '$firstname', '$middlename', '$lastname', '$age', '$email', '$contact_number')";
+
+        if ($connection->query($query) === TRUE) {
+            // Data inserted successfully
+            echo "New user created and added to faculty_credentials table.";
+        } else {
+            // Error occurred while inserting data
+            echo "Error: " . $query . "<br>" . $connection->error;
+        }
+
+        // Close the database connection
+        $connection->close();
+    }
+?>
+
+
     <script>
         function validateForm() {
             var password = document.getElementById("password").value;
